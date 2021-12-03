@@ -1,13 +1,13 @@
 <template>
-<div class="recipe_material_row-wrapper">
+  <div class="recipe_material_row-wrapper">
     <input class="recipe_material_name">
     <input class="recipe_material_quantity">
-</div>
+  </div>
 </template>
 
 <script>
 export default {
-    props: ['material']
+  props: ['material']
 }
 </script>
 

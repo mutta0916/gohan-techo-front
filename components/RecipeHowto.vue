@@ -1,12 +1,12 @@
 <template>
-<div>
-  <li><input class="recipe_howto"></li>
-</div>
+  <div>
+    <li><input class="recipe_howto"></li>
+  </div>
 </template>
 
 <script>
 export default {
-    props: ['howto']
+  props: ['howto']
 }
 </script>
 
