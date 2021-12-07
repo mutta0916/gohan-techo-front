@@ -1,6 +1,6 @@
 <template>
   <div>
-    <li><input class="recipe_howto"></li>
+    <li><input type="text" class="recipe_howto"></li>
   </div>
 </template>
 
@@ -11,10 +11,13 @@ export default {
 </script>
 
 <style scoped>
-
-.recipe_howto {
-  margin: 5px;
+li {
+  margin-bottom: 5px;
 }
 
+.recipe_howto {
+  width: 100%;
+  margin: 5px;
+}
 </style>
 }

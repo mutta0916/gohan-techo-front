@@ -1,29 +1,34 @@
 <template>
   <div id="app">
     <div class="create_recipe_wrapper">
-      <input v-model="name" type="text" name="name" placeholder="料理名を入力してください。" class="recipe_name">
-      <div class="recipe_row_wrapper">
-        <div class="recipe_photo_wrapper">
-          <label>
-            <img :src="photo" alt="クリックして画像を選択" class="recipe_photo">
-            <input class="recipe_upload" type="file" accept="image/jpeg, image/png" @change="onImageChange">
-            クリックしてアップロード
-          </label>
-        </div>
-        <div class="recipe_material_wrapper">
-          <div class="recipe_material_label_wrapper">
-            <label>材料：</label>
-            <input type="number" placeholder="２" min="1" class="recipe_servings">
-            <label>人前</label>
+      <div class="recipe_name_row_wrapper">
+        <input v-model="name" type="text" name="name" placeholder="料理名を入力してください。" class="recipe_name">
+        <input type="submit" value="登録" class="button_insert" @click="insert">
+      </div>
+      <div class="content_wrapper">
+        <div class="left_content_wrapper">
+          <div class="recipe_photo_wrapper">
+            <label>
+              <img :src="photo" alt="クリックして画像を選択" class="recipe_photo">
+              <input class="recipe_upload" type="file" accept="image/jpeg, image/png" @change="onImageChange">
+              クリックしてアップロード
+            </label>
           </div>
-          <recipe-material />
+          <div class="recipe_material_wrapper">
+            <div class="recipe_servings_wrapper">
+              <label class="recipe_servings_label">材料：</label>
+              <input type="number" placeholder="２" min="1" class="recipe_servings">
+              <label class="recipe_servings_label">人前</label>
+            </div>
+            <recipe-material />
+          </div>
+          <textarea v-model="memo" placeholder="ちょっとしたメモを残せます。次改善したい点などを書き残せます。例）次は辛さをもっと辛くしたい。" class="recipe_memo" />
+        </div>
+        <div class="right_content_wrapper">
+          <h2>作り方</h2>
+          <recipe-howto />
         </div>
       </div>
-      <recipe-howto />
-      <input v-model="memo" type="text" placeholder="ちょっとしたメモを残せます。次改善したい点などを書き残せます。例）次は辛さをもっと辛くしたい。" class="recipe_memo">
-      <b-button variant="primary" class="recipe_input" @click="insert">
-        登録
-      </b-button>
     </div>
   </div>
 </template>
@@ -80,43 +85,46 @@ export default {
 <style scoped>
 .create_recipe_wrapper {
   max-width: 1200px;
-  margin: 30px auto;
-  padding: 20px;
+  margin: 15px auto;
+  padding: 50px;
   background-color: #fef6e4;
 }
 
-input {
-  box-sizing: border-box;
-  border-bottom: 1px dotted;
-  border-right:none;
-  border-left:none;
-  border-top:none;
-  background-color: transparent;
-  width: 100%;
-}
-
-input:focus {
-    outline: none;
+.recipe_name_row_wrapper {
+  display: flex;
+  flex-flow: row;
+  margin-bottom: 25px;
 }
 
 .recipe_name {
-  width: 600px;
-  height: 50px;
-  margin: 10px;
+  font-size: 23px;
+  width: 50%;
+  margin-right: auto;
 }
 
-.recipe_row_wrapper {
+.content_wrapper {
   display: flex;
+  flex-flow: column;
+}
+
+.left_content_wrapper {
+  flex: 0 0 350px;
+  margin-right: 20px;
+}
+
+.right_content_wrapper {
+  flex: 1 1 auto;
 }
 
 .recipe_photo_wrapper {
-  width: 250px;
+  margin-bottom: 20px;
 }
 
 .recipe_photo {
   display: block;
   max-width: 100%;
   height: auto;
+  margin-bottom: 5px;
 }
 
 .recipe_upload {
@@ -128,30 +136,47 @@ img:hover {
 }
 
 .recipe_material_wrapper {
-  width: 545px;
-  margin: 10px;
+  margin-bottom: 20px;
 }
 
-.recipe_material_label_wrapper {
-  display: flex;
+.recipe_memo {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px;
+  background-color: white;
 }
 
-.recipe_material_label_wrapper label {
+.recipe_servings_label {
   font-size: 23px;
 }
 
+.recipe_servings_wrapper {
+  margin-bottom: 13px;
+}
+
 .recipe_servings {
+  text-align: center;
+  font-size: 23px;
   width: 50px;
 }
 
-/* .recipe_memo {
-  height: 150px;
-  margin: 10px;
-  background-color: white;
-} */
+h2 {
+  margin: 0;
+}
 
-.recipe_input {
-  margin: 10px;
+.button_insert {
+  background-color: #8bd4ddd3;
+}
+
+@media only screen and (min-width: 768px) {
+  .content_wrapper {
+    display: flex;
+    flex-flow: row;
+  }
+
+  .recipe_memo {
+    margin-bottom: 0;
+  }
 }
 
 </style>

@@ -1,12 +1,11 @@
 <template>
   <div>
     <ol>
-      <li><input placeholder="豚肉に塩コショウを振る。" class="recipe_howto"></li>
-      <recipeHowto v-for="(howto, index) in howtos" :key="index" :howto="howto" />
+      <li><input type="text" placeholder="手順を入力してください。" class="recipe_howto"></li>
+      <recipe-howto v-for="(howto, index) in howtos" :key="index" :howto="howto" />
     </ol>
-    <b-button variant="primary" class="recipe_input" @click="onClick">
-      行を追加
-    </b-button>
+    <input type="submit" value="行を追加" @click="addRow">
+    <input type="submit" value="行を削除" @click="delRow">
   </div>
 </template>
 
@@ -19,12 +18,15 @@ export default {
   },
   data () {
     return {
-      howtos: [1, 2, 3, 4]
+      howtos: [1, 2, 3, 4, 5, 6, 7]
     }
   },
   methods: {
-    onClick () {
+    addRow () {
       this.howtos.push('')
+    },
+    delRow () {
+      this.howtos.pop()
     }
   }
 }
@@ -32,10 +34,13 @@ export default {
 </script>
 
 <style scoped>
-
-.recipe_howto {
-  margin: 5px;
+li {
+  margin-bottom: 5px;
 }
 
+.recipe_howto {
+  width: 100%;
+  margin: 5px;
+}
 </style>
 }

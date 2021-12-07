@@ -12,8 +12,6 @@
 
 <style scoped>
 footer {
-  /* TODO:開発後は背景色を削除 */
-  background-color: #bad7f5;
   text-align: center;
 }
 

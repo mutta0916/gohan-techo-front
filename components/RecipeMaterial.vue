@@ -1,7 +1,7 @@
 <template>
-  <div class="recipe_material_row-wrapper">
-    <input class="recipe_material_name">
-    <input class="recipe_material_quantity">
+  <div class="recipe_material_row_wrapper">
+    <input type="text" class="recipe_material_name">
+    <input type="text" class="recipe_material_quantity">
   </div>
 </template>
 
@@ -12,20 +12,18 @@ export default {
 </script>
 
 <style scoped>
-
-.recipe_material_row-wrapper {
+recipe_material_row_wrapper {
   display: flex;
 }
 
 .recipe_material_name {
-  width: 400px;
+  width: 60%;
   margin: 5px;
 }
 
 .recipe_material_quantity {
-  width: 400px;
+  width: 60%;
   margin: 5px;
 }
-
 </style>
 }

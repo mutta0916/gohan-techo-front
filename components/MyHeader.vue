@@ -1,46 +1,46 @@
 <template>
   <div>
     <header>
+      <button id="mobile-menu" class="hamburger" />
       <nav>
         <div class="container">
           <ul class="navbar">
             <li>
-              <NuxtLink to="/">
+              <NuxtLink to="/createRecipeApp">
                 ごはん手帳
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/">
+              <NuxtLink to="/createRecipeApp">
                 料理作成
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/">
+              <NuxtLink to="/createRecipeApp">
                 献立表
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/">
+              <NuxtLink to="/createRecipeApp">
                 料理一覧表
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/">
+              <NuxtLink to="/createRecipeApp">
                 User
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/">
+              <NuxtLink to="/createRecipeApp">
                 Profile
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/">
+              <NuxtLink to="/createRecipeApp">
                 Sign Out
               </NuxtLink>
             </li>
           </ul>
-          <button id="mobile-menu" class="hamburger" />
         </div>
       </nav>
     </header>
@@ -48,10 +48,40 @@
 </template>
 
 <style scoped>
-.nav_inner {
-  /* TODO:開発後は背景色を削除 */
-  background-color: #bad7f5;
-  padding: 12px 12px 0 12px;
-  font-size: 20px;
+.hamburger {
+  margin: 5px;
+  border: none;
+  width: 50px;
+  height: 50px;
+  background: url(../assets/menu.svg);
+  background-size: contain;
+}
+
+.navbar {
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  font-size: 23px;
+}
+
+.navbar li a {
+  display: block;
+  padding: 15px 10px;
+  text-decoration: none;
+  color: #575a63;
+}
+
+.navbar li a:hover {
+  opacity: 0.7;
+}
+
+@media only screen and (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+  .navbar {
+    display: flex !important;
+  }
 }
 </style>
