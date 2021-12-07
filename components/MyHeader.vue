@@ -53,7 +53,7 @@
   border: none;
   width: 50px;
   height: 50px;
-  background: url(../assets/menu.svg);
+  background: url(../assets/hamburger.svg);
   background-size: contain;
 }
 

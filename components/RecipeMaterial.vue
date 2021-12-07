@@ -7,7 +7,12 @@
 
 <script>
 export default {
-  props: ['material']
+  props: {
+    material: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 

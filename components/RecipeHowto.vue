@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  props: ['howto']
+  props: {
+    howto: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 
