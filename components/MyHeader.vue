@@ -21,7 +21,7 @@
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/createRecipeApp">
+              <NuxtLink to="/recipeListApp">
                 料理一覧表
               </NuxtLink>
             </li>
