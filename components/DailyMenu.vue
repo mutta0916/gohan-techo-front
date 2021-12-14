@@ -7,9 +7,7 @@
       <input type="text" name="name" placeholder="メモを入力できます。" class="memo">
     </div>
     <div class="content_main">
-      <menu-card class="menu_card"/>
-      <menu-card class="menu_card" />
-      <menu-card class="menu_card" />
+      <menu-card v-for="index in 3" :key="index" class="menu_card" />
     </div>
   </div>
 </template>
@@ -41,7 +39,7 @@ export default {
 .content_wrapper {
   display: flex;
   flex-flow: column;
-  /* justify-content: space-between; */
+  width: 100%;
   color: currentColor;
 }
 
@@ -63,24 +61,18 @@ export default {
 
 .content_main {
   display: flex;
-  flex-flow: row;
-  justify-content: space-between;
+  flex-flow: column;
 }
 
 .menu_card {
-  flex: 0 1 30%;
-  margin: 0;
-  margin-right: 10px;
+  flex: 0 1 32.5%;
+  margin: 0 0 5px 0;
 }
 
 @media only screen and (min-width: 768px) {
-  /* .content_wrapper {
+  .content_main {
     flex-flow: row;
-    align-items: flex-start;
-  } */
-
-  h3 {
-    font-size: 19px;
+    justify-content: space-between;
   }
 }
 </style>

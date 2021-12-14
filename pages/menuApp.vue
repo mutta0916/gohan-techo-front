@@ -42,18 +42,6 @@ export default {
         })
       }
       return array
-    },
-    filteredRecipes () {
-      const searchRecipes = []
-      for (const i in this.recipes) {
-        const recipe = this.recipes[i]
-        if (recipe.name.includes(this.keyword) ||
-              recipe.genre.includes(this.keyword) ||
-                recipe.type.includes(this.keyword)) {
-          searchRecipes.push(recipe)
-        }
-      }
-      return searchRecipes
     }
   },
   methods: {
@@ -103,10 +91,5 @@ h1 {
   text-align: center;
   margin: 0 0 30px 0;
   letter-spacing: 10px;
-}
-
-.each_menu {
-  flex: 0 1 40%;
-  margin: 20px;
 }
 </style>
