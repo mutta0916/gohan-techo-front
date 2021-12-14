@@ -7,7 +7,7 @@
         <input type="submit" value="" class="next_month" @click="forward">
       </div>
       <div class="list">
-        <daily-Menu v-for="day in days" :key="day" :day="day" class="each_recipe" />
+        <daily-menu v-for="(day, index) in days" :key="index" :obj-day="day" class="each_menu" />
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@ import dailyMenu from '../components/DailyMenu'
 
 export default {
   components: {
-    'daily-Menu': dailyMenu
+    'daily-menu': dailyMenu
   },
   data () {
     return {
@@ -29,7 +29,19 @@ export default {
   },
   computed: {
     days () {
-      return (new Date(this.year, this.month, 0)).getDate()
+      const days = (new Date(this.year, this.month, 0)).getDate()
+      const array = []
+      const dayName = ['日', '月', '火', '水', '木', '金', '土']
+      for (let i = 0; i < days; i++) {
+        const week = (new Date(this.year, this.month, i + 1)).getDay()
+        array.push({
+          year: this.year,
+          month: this.month,
+          day: i + 1,
+          week: dayName[week]
+        })
+      }
+      return array
     },
     filteredRecipes () {
       const searchRecipes = []
@@ -62,6 +74,12 @@ export default {
 </script>
 
 <style scoped>
+.content_wrapper {
+  max-width: 1000px;
+  margin: 15px auto;
+  padding: 0 30 0 30px;
+}
+
 .content_header {
   display: flex;
   justify-content: space-between;
@@ -87,19 +105,7 @@ h1 {
   letter-spacing: 10px;
 }
 
-.content_wrapper {
-  max-width: 1200px;
-  margin: 15px auto;
-  padding: 0 30 0 30px;
-}
-
-/* .list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-} */
-
-.each_recipe {
+.each_menu {
   flex: 0 1 40%;
   margin: 20px;
 }
