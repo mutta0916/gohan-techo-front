@@ -26,7 +26,7 @@
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/createRecipeApp">
+              <NuxtLink to="/createAccountApp">
                 User
               </NuxtLink>
             </li>

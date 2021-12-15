@@ -15,7 +15,9 @@ html, body {
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="email"],
+input[type="password"] {
   box-sizing: border-box;
   border-bottom: 1px dotted;
   border-right:none;
