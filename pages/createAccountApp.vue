@@ -24,9 +24,6 @@
   </div>
 </template>
 
-<script>
-</script>
-
 <style scoped>
 .content_wrapper {
   max-width: 1000px;
