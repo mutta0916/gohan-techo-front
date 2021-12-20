@@ -14,7 +14,7 @@
             <input id="password-field" type="password" name="password">
           </p>
         </div>
-        <input type="submit" value="ログイン" class="button_login" @click="login">
+        <input type="submit" value="ログイン" class="button_login">
       </div>
     </div>
   </div>
