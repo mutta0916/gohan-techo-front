@@ -13,20 +13,26 @@
         </p>
         <p>
           <label for="password-field">パスワード</label><br>
-          <input id="password-field" type="password" name="password">
-        </p>
-        <p>
-          <label for="reenter-password-field">パスワード(再入力)</label><br>
-          <input id="reenter-password-field" type="password" name="password">
+          <input-password />
         </p>
       </div>
     </div>
   </div>
 </template>
 
+<script>
+import inputPassword from '../components/InputPassword.vue'
+
+export default {
+  components: {
+    'input-password': inputPassword
+  }
+}
+</script>
+
 <style scoped>
 .content_wrapper {
-  max-width: 1000px;
+  max-width: 700px;
   margin: 15px auto;
   padding: 0 30 0 30px;
   text-align: center;

@@ -8,17 +8,23 @@
         </p>
         <p>
           <label for="password-field">パスワード</label><br>
-          <input id="password-field" type="password" name="password">
-        </p>
-        <p>
-          <label for="reenter-password-field">パスワード(再入力)</label><br>
-          <input id="reenter-password-field" type="password" name="password">
+          <input-password />
         </p>
       </div>
       <input type="submit" value="設定" class="button_reset">
     </div>
   </div>
 </template>
+
+<script>
+import inputPassword from '../components/InputPassword.vue'
+
+export default {
+  components: {
+    'input-password': inputPassword
+  }
+}
+</script>
 
 <style scoped>
 .content_wrapper {

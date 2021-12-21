@@ -11,17 +11,24 @@
           </p>
           <p>
             <label for="password-field">パスワード</label><br>
-            <input id="password-field" type="password" name="password">
+            <input-password />
           </p>
         </div>
-        <input type="submit" value="ログイン" class="button_login">
+        <button type="button" class="button_login">
+          ログイン
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import inputPassword from '../components/InputPassword.vue'
+
 export default {
+  components: {
+    'input-password': inputPassword
+  },
   layout: 'home'
 }
 </script>
