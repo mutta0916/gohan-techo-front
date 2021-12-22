@@ -1,21 +1,17 @@
 <template>
   <div id="app">
     <div class="content_wrapper">
-      <h1>アカウント作成</h1>
+      <h1>パスワード設定</h1>
       <div class="content_main">
         <p>
-          <label for="name-field">ニックネーム</label><br>
-          <input id="name-field" type="text" name="name">
-        </p>
-        <p>
-          <label for="email-field">メールアドレス</label><br>
-          <input id="email-field" type="email" name="email">
+          新しいパスワードを入力してください。
         </p>
         <p>
           <label for="password-field">パスワード</label><br>
           <input-password />
         </p>
       </div>
+      <input type="submit" value="設定" class="button_reset">
     </div>
   </div>
 </template>
@@ -36,6 +32,7 @@ export default {
   margin: 15px auto;
   padding: 0 30 0 30px;
   text-align: center;
+  height: 80vh;
 }
 
 h1 {
@@ -52,5 +49,19 @@ input {
   width: 100%;
   height: auto;
   margin: 5px 0;
+}
+
+.button_reset {
+  padding: 10px 0;
+  width: 25%;
+  background-color: #f3d2c1;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.button_reset:hover {
+  opacity: 0.5;
 }
 </style>
