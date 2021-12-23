@@ -36,6 +36,7 @@ export default {
   margin: 15px auto;
   padding: 0 30 0 30px;
   text-align: center;
+  height: 80vh;
 }
 
 h1 {
