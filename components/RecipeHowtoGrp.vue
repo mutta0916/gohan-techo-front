@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import recipeHowto from '../components/RecipeHowto'
+import recipeHowto from './RecipeHowto'
 
 export default {
   components: {
