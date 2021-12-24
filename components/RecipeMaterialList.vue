@@ -19,7 +19,7 @@ export default {
   },
   data () {
     return {
-      materials: [1, 2, 3, 4]
+      materials: ['1', '2', '3', '4']
     }
   },
   methods: {

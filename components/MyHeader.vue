@@ -11,7 +11,7 @@
                   ごはん手帳
                 </NuxtLink>
               </li>
-              <li>
+              <!-- <li>
                 <NuxtLink to="/createRecipeApp" event="" @click.native.prevent="trigger">
                   料理作成
                 </NuxtLink>
@@ -30,7 +30,7 @@
                 <NuxtLink to="/createRecipeApp" event="" @click.native.prevent="trigger">
                   サインアウト
                 </NuxtLink>
-              </li>
+              </li> -->
             </ul>
           </div>
         </nav>
