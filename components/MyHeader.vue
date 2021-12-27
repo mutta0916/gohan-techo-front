@@ -7,30 +7,30 @@
           <div class="container">
             <ul class="navbar">
               <li>
-                <NuxtLink to="/createRecipeApp" event="" @click.native.prevent="trigger">
+                <NuxtLink to="/createRecipeApp" @click.native.prevent="trigger">
                   ごはん手帳
                 </NuxtLink>
               </li>
-              <!-- <li>
-                <NuxtLink to="/createRecipeApp" event="" @click.native.prevent="trigger">
+              <li>
+                <NuxtLink to="/createRecipeApp" @click.native.prevent="trigger">
                   料理作成
                 </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/menuApp" event="" @click.native.prevent="trigger">
+                <NuxtLink to="/menuApp" @click.native.prevent="trigger">
                   献立表
                 </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/recipeListApp" event="" @click.native.prevent="trigger">
+                <NuxtLink to="/recipeListApp" @click.native.prevent="trigger">
                   料理一覧表
                 </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/createRecipeApp" event="" @click.native.prevent="trigger">
+                <NuxtLink to="/createRecipeApp" @click.native.prevent="trigger">
                   サインアウト
                 </NuxtLink>
-              </li> -->
+              </li>
             </ul>
           </div>
         </nav>
