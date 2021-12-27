@@ -45,6 +45,8 @@ export default {
   data () {
     return {
       photo: require('../assets/upload.svg'),
+      name: '',
+      memo: '',
       error: ''
     }
   },

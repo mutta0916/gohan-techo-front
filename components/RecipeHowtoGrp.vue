@@ -18,7 +18,7 @@ export default {
   },
   data () {
     return {
-      howtos: [1, 2, 3, 4, 5, 6, 7]
+      howtos: ['1', '2', '3', '4', '5', '6', '7']
     }
   },
   methods: {
