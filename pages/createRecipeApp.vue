@@ -3,6 +3,43 @@
     <div class="create_recipe_wrapper">
       <div class="recipe_name_row_wrapper">
         <input v-model="name" type="text" name="name" placeholder="料理名を入力してください。" class="recipe_name">
+        <select name="genre" class="select">
+          <option value="1" selected>
+            和食
+          </option>
+          <option value="2">
+            洋食
+          </option>
+          <option value="3">
+            中華
+          </option>
+          <option value="4">
+            その他
+          </option>
+        </select>
+        <select name="type" class="select">
+          <option value="1" selected>
+            主食
+          </option>
+          <option value="2">
+            主菜
+          </option>
+          <option value="3">
+            副菜
+          </option>
+          <option value="4">
+            汁物
+          </option>
+          <option value="5">
+            丼
+          </option>
+          <option value="6">
+            麺
+          </option>
+          <option value="7">
+            その他
+          </option>
+        </select>
         <input type="submit" value="登録" class="button_insert" @click="insert">
       </div>
       <div class="content_wrapper">
@@ -168,6 +205,12 @@ h2 {
 
 .button_insert {
   background-color: #8bd4ddd3;
+}
+
+.select {
+  border: none;
+  margin: 10px;
+  background-color: transparent;
 }
 
 @media only screen and (min-width: 768px) {

@@ -9,7 +9,7 @@
         {{ recipe.memo }}
       </p>
       <span class="genre_label">{{ recipe.genre }}</span>
-      <span v-for="(type, index) in recipe.type" :key="index" class="type_label">{{ type }}</span>
+      <span class="type_label">{{ recipe.type }}</span>
     </div>
   </NuxtLink>
 </template>
