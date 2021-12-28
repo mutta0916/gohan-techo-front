@@ -8,7 +8,7 @@
       <img v-for="index in 3" :key="index" :src="photo" alt="献立画像" class="photo">
     </div>
     <input
-      v-for="index in 5"
+      v-for="index in 6"
       :key="index"
       type="button"
       value="献立を選択"
