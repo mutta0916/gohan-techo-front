@@ -7,24 +7,28 @@
         <input type="submit" value="" class="next_month" @click="forward">
       </div>
       <div class="list">
-        <daily-menu v-for="(day, index) in days" :key="index" :obj-day="day" class="each_menu" />
+        <daily-menu v-for="(day, index) in days" :key="index" :obj-day="day" class="each_menu" @modal-child-click="click" />
       </div>
     </div>
+    <recipe-select v-if="showModal" @close="close" />
   </div>
 </template>
 
 <script scoped>
 import dailyMenu from '../components/DailyMenu'
+import recipeSelect from '../components/RecipeSelect'
 
 export default {
   components: {
-    'daily-menu': dailyMenu
+    'daily-menu': dailyMenu,
+    'recipe-select': recipeSelect
   },
   data () {
     return {
       keyword: '',
       year: (new Date()).getFullYear(),
-      month: (new Date()).getMonth() + 1
+      month: (new Date()).getMonth() + 1,
+      showModal: false
     }
   },
   computed: {
@@ -56,6 +60,14 @@ export default {
       date.setMonth(date.getMonth() + 1)
       this.year = date.getFullYear()
       this.month = date.getMonth() + 1
+    },
+    close () {
+      this.showModal = false
+      // クリックしたセルに値を反映
+      // this.$nuxt.$emit('setCellVal', name)
+    },
+    click (showModalFlg) {
+      this.showModal = showModalFlg
     }
   }
 }

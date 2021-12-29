@@ -13,7 +13,8 @@ const createStore = () => {
         { name: 'サラダチキン', genre: '洋食', type: '主菜', servings: '4', memo: 'ダイエットにはこれ' },
         { name: '豚肉と白菜のくたくた煮', genre: '和食', type: '主菜', servings: '2', memo: 'くったり白菜はうまい' },
         { name: 'キムチ鍋', genre: '和食', type: '主菜', servings: '4', memo: 'がっつり食べたいときに' },
-        { name: 'カルボナーラ', genre: '洋食', type: '主菜', servings: '4', memo: 'これぞデブ飯！' }
+        { name: 'カルボナーラ', genre: '洋食', type: '主菜', servings: '4', memo: 'これぞデブ飯！' },
+        { name: '@@@@@@@@@1@@@@@@@@@2@@@@@@@@@3@@@@@@@@@4@@@@@@@@@5', genre: '洋食', type: '主菜', servings: '4', memo: 'これぞデブ飯！' }
       ]
     }),
     mutations: {
