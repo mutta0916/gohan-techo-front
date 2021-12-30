@@ -7,7 +7,7 @@
       <input type="text" name="name" placeholder="メモを入力できます。" class="memo">
     </div>
     <div class="content_main">
-      <menu-card v-for="index in 3" :key="index" class="menu_card" />
+      <menu-card v-for="index in 3" :key="index" class="menu_card" @modal-child-click="click" />
     </div>
   </div>
 </template>
@@ -29,7 +29,13 @@ export default {
   },
   data () {
     return {
-      week: (new Date(this.year, this.month, 0)).getDay()
+      week: (new Date(this.year, this.month, 0)).getDay(),
+      showModal: false
+    }
+  },
+  methods: {
+    click (showModalFlg) {
+      this.$emit('modal-child-click', showModalFlg)
     }
   }
 }

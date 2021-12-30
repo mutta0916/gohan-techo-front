@@ -7,24 +7,28 @@
         <input type="submit" value="" class="next_month" @click="forward">
       </div>
       <div class="list">
-        <daily-menu v-for="(day, index) in days" :key="index" :obj-day="day" class="each_menu" />
+        <daily-menu v-for="(day, index) in days" :key="index" :obj-day="day" class="each_menu" @modal-child-click="click" />
       </div>
     </div>
+    <recipe-select v-if="showModal" @close="close" @selectDish="selectDish" />
   </div>
 </template>
 
 <script scoped>
 import dailyMenu from '../components/DailyMenu'
+import recipeSelect from '../components/RecipeSelect'
 
 export default {
   components: {
-    'daily-menu': dailyMenu
+    'daily-menu': dailyMenu,
+    'recipe-select': recipeSelect
   },
   data () {
     return {
       keyword: '',
       year: (new Date()).getFullYear(),
-      month: (new Date()).getMonth() + 1
+      month: (new Date()).getMonth() + 1,
+      showModal: false
     }
   },
   computed: {
@@ -56,6 +60,17 @@ export default {
       date.setMonth(date.getMonth() + 1)
       this.year = date.getFullYear()
       this.month = date.getMonth() + 1
+    },
+    selectDish (id) {
+      this.showModal = false
+      // idから写真を取得し、メイン画面に反映させる
+      alert(id)
+    },
+    click (showModalFlg) {
+      this.showModal = showModalFlg
+    },
+    close () {
+      this.showModal = false
     }
   }
 }
