@@ -3,34 +3,38 @@
     <header>
       <button v-show="isMobile" class="hamburger" @click="isActiveMenu = !isActiveMenu" />
       <transition name="fade">
-        <nav v-show="!isMobile || isActiveMenu" class="global-nav">
+        <nav v-show="!isMobile || isActiveMenu">
           <div class="container">
             <ul class="navbar">
-              <li>
-                <NuxtLink to="/createRecipeApp" @click.native.prevent="trigger">
-                  ごはん手帳
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/createRecipeApp" @click.native.prevent="trigger">
-                  料理作成
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/menuApp" @click.native.prevent="trigger">
-                  献立表
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/recipeListApp" @click.native.prevent="trigger">
-                  料理一覧表
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/createRecipeApp" @click.native.prevent="trigger">
-                  サインアウト
-                </NuxtLink>
-              </li>
+              <div class="left_navbar">
+                <li>
+                  <NuxtLink to="/menuApp" @click.native.prevent="trigger">
+                    ごはん手帳
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink to="/createRecipeApp" @click.native.prevent="trigger">
+                    料理作成
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink to="/menuApp" @click.native.prevent="trigger">
+                    献立表
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink to="/recipeListApp" @click.native.prevent="trigger">
+                    料理一覧表
+                  </NuxtLink>
+                </li>
+              </div>
+              <div class="light_navbar">
+                <li>
+                  <NuxtLink to="/" @click.native.prevent="trigger">
+                    サインアウト
+                  </NuxtLink>
+                </li>
+              </div>
             </ul>
           </div>
         </nav>
@@ -116,6 +120,10 @@ export default {
   .navbar {
     display: flex;
     flex-flow: row;
+    justify-content: space-between;
+  }
+  .left_navbar {
+    display: flex;
   }
 }
 </style>
