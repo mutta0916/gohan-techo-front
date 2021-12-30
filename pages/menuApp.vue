@@ -10,7 +10,7 @@
         <daily-menu v-for="(day, index) in days" :key="index" :obj-day="day" class="each_menu" @modal-child-click="click" />
       </div>
     </div>
-    <recipe-select v-if="showModal" @close="close" />
+    <recipe-select v-if="showModal" @close="close" @selectDish="selectDish" />
   </div>
 </template>
 
@@ -61,13 +61,16 @@ export default {
       this.year = date.getFullYear()
       this.month = date.getMonth() + 1
     },
-    close () {
+    selectDish (id) {
       this.showModal = false
-      // クリックしたセルに値を反映
-      // this.$nuxt.$emit('setCellVal', name)
+      // idから写真を取得し、メイン画面に反映させる
+      alert(id)
     },
     click (showModalFlg) {
       this.showModal = showModalFlg
+    },
+    close () {
+      this.showModal = false
     }
   }
 }

@@ -14,14 +14,14 @@
           <input v-model="keyword" type="text" placeholder="ここから検索ができます。" class="search">
         </div>
         <div class="content_body">
-          <div v-for="(recipe, index) in filteredRecipes" :key="index" class="photo_wrapper">
+          <div v-for="(recipe, index) in filteredRecipes" :key="index" class="photo_wrapper" @click="selectDish(recipe.id)">
+            <p>{{ recipe.name }}</p>
             <img
               :src="photo"
               alt="献立画像"
               class="photo"
               @click="click"
             >
-            <p>{{ recipe.name }}</p>
           </div>
         </div>
       </div>
@@ -53,8 +53,8 @@ export default {
     }
   },
   methods: {
-    selectDish (name) {
-      this.$emit('close', name)
+    selectDish (id) {
+      this.$emit('selectDish', id)
     }
   }
 }
@@ -128,6 +128,7 @@ export default {
 }
 
 .photo_wrapper p {
+  max-width: 91%;
   position: absolute;
   top: 0;
   left: 0;
@@ -137,6 +138,9 @@ export default {
   font-size: 15px;
   line-height: 1;
   padding: 5px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .photo {
