@@ -7,6 +7,7 @@
         <recipe v-for="(recipe, index) in filteredRecipes" :key="index" :recipe="recipe" class="each_recipe" />
       </div>
     </div>
+    <a href="#" class="page_top">トップへ</a>
   </div>
 </template>
 
@@ -68,5 +69,16 @@ h1 {
 .each_recipe {
   flex: 0 1 40%;
   margin: 20px;
+}
+
+.page_top {
+  text-decoration: none;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  background: #8bd3dd;
+  color: white;
+  padding: 10px;
+  border: solid 1px;
 }
 </style>

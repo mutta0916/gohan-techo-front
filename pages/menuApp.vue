@@ -11,6 +11,7 @@
       </div>
     </div>
     <recipe-select v-if="showModal" @close="close" @selectDish="selectDish" />
+    <a href="#" class="page_top">トップへ</a>
   </div>
 </template>
 
@@ -107,4 +108,16 @@ h1 {
   margin: 0 0 30px 0;
   letter-spacing: 10px;
 }
+
+.page_top {
+  text-decoration: none;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  background: #8bd3dd;
+  color: white;
+  padding: 10px;
+  border: solid 1px;
+}
+
 </style>
