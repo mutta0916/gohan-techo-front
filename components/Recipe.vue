@@ -4,7 +4,9 @@
       <img :src="photo" alt="料理画像">
     </figure>
     <div class="main">
-      <h3>{{ recipe.name }}</h3>
+      <p class="recipe_name">
+        {{ recipe.name }}
+      </p>
       <p class="memo">
         {{ recipe.memo }}
       </p>
@@ -33,9 +35,13 @@ export default {
 </script>
 
 <style scoped>
-h3 {
+.recipe_name {
   font-size: 17px;
   margin: 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .item {
@@ -62,6 +68,7 @@ img {
 
 .main {
   flex:0 1 50%;
+  max-width: 50%;
 }
 
 span {
@@ -86,7 +93,7 @@ span {
     align-items: flex-start;
   }
 
-  h3 {
+  .recipe_name {
     font-size: 19px;
   }
 }
