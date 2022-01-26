@@ -1,8 +1,17 @@
 <template>
   <div>
     <ol>
-      <li><input type="text" placeholder="手順を入力してください。" class="recipe_howto"></li>
-      <recipe-howto v-for="(howto, index) in howtos" :key="index" :howto="howto" />
+      <li v-for="(row, index) in data" :key="index">
+        <input
+          v-if="index === 0"
+          placeholder="手順を入力してください。"
+          :value="row.howto"
+          type="text"
+          class="recipe_howto"
+          @input="inputText(row.id, $event)"
+        >
+        <input v-else :value="row.howto" type="text" class="recipe_howto" @input="inputText(row.id, $event)">
+      </li>
     </ol>
     <input type="submit" value="行を追加" @click="addRow">
     <input type="submit" value="行を削除" @click="delRow">
@@ -10,27 +19,33 @@
 </template>
 
 <script>
-import recipeHowto from './RecipeHowto'
-
 export default {
-  components: {
-    'recipe-howto': recipeHowto
+  props: {
+    howtos: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
   },
   data () {
     return {
-      howtos: ['1', '2', '3', '4', '5', '6', '7']
+      data: this.howtos
     }
   },
   methods: {
+    inputText (id, $event) {
+      this.data[id - 1] = { id, howto: $event.target.value }
+      this.$emit('change-howto', this.data)
+    },
     addRow () {
-      this.howtos.push('')
+      this.data.push({ id: this.data.length + 1, howto: '' })
     },
     delRow () {
-      this.howtos.pop()
+      this.data.pop()
     }
   }
 }
-
 </script>
 
 <style scoped>

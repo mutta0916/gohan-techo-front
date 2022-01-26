@@ -3,41 +3,14 @@
     <div class="create_recipe_wrapper">
       <div class="recipe_name_row_wrapper">
         <input v-model="name" type="text" name="name" placeholder="料理名を入力してください。" class="recipe_name">
-        <select name="genre" class="select">
-          <option value="1" selected>
-            和食
-          </option>
-          <option value="2">
-            洋食
-          </option>
-          <option value="3">
-            中華
-          </option>
-          <option value="4">
-            その他
+        <select v-model="selectGenre" name="genre" class="select">
+          <option v-for="(row, index) in genres" :key="index" :value="row.id">
+            {{ row.genre }}
           </option>
         </select>
-        <select name="type" class="select">
-          <option value="1" selected>
-            主食
-          </option>
-          <option value="2">
-            主菜
-          </option>
-          <option value="3">
-            副菜
-          </option>
-          <option value="4">
-            汁物
-          </option>
-          <option value="5">
-            丼
-          </option>
-          <option value="6">
-            麺
-          </option>
-          <option value="7">
-            その他
+        <select v-model="selectType" name="type" class="select">
+          <option v-for="(row, index) in types" :key="index" :value="row.id">
+            {{ row.type }}
           </option>
         </select>
         <input type="submit" value="登録" class="button_insert" @click="insert">
@@ -63,7 +36,7 @@
         </div>
         <div class="right_content_wrapper">
           <h2>作り方</h2>
-          <recipe-howto />
+          <recipe-howto :howtos="howtoData" @change-howto="changeHowto" />
         </div>
       </div>
     </div>
@@ -81,11 +54,33 @@ export default {
   },
   data () {
     return {
+      genres: [],
+      selectGenre: '1',
+      types: [],
+      selectType: '1',
+      howtoData: [
+        { id: 1, howto: '' },
+        { id: 2, howto: '' },
+        { id: 3, howto: '' },
+        { id: 4, howto: '' },
+        { id: 5, howto: '' }
+      ],
       photo: require('../assets/upload.svg'),
       name: '',
       memo: '',
       error: ''
     }
+  },
+  async fetch () {
+    await this.$axios
+      .$get('http://127.0.0.1:8000/api/recipe')
+      .then((response) => {
+        this.genres = response.genres
+        this.types = response.types
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
   methods: {
     setError (error, text) {
@@ -115,7 +110,19 @@ export default {
       }
     },
     insert () {
-      this.$store.commit('insert', { name: this.name })
+      const arrHowto = this.howtoData.filter(elem => elem.howto.trim())
+      this.$axios
+        .$post('http://127.0.0.1:8000/api/recipe', { name: this.name, genre: this.selectGenre, type: this.selectType, howto: arrHowto })
+        .then((response) => {
+          this.data = response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      this.input = ''
+    },
+    changeHowto (changeHowtos) {
+      this.howtoData = changeHowtos
     }
   }
 }
