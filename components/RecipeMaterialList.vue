@@ -1,33 +1,62 @@
 <template>
   <div>
-    <div class="recipe_material_row_wrapper">
-      <input type="text" placeholder="材料" class="recipe_material_name">
-      <input type="text" placeholder="分量" class="recipe_material_quantity">
+    <div v-for="(row, index) in data" :key="index" class="recipe_material_row_wrapper">
+      <input
+        v-if="index === 0"
+        placeholder="材料"
+        :value="row.name"
+        type="text"
+        class="recipe_material_name"
+        @input="inputTextName(row.id, $event)"
+      >
+      <input v-else :value="row.name" type="text" class="recipe_material_name" @input="inputTextName(row.id, $event)">
+      <input
+        v-if="index === 0"
+        placeholder="分量"
+        :value="row.amount"
+        type="text"
+        class="recipe_material_amount"
+        @input="inputTextAmount(row.id, $event)"
+      >
+      <input v-else :value="row.amount" type="text" class="recipe_material_name" @input="inputTextAmount(row.id, $event)">
     </div>
-    <recipe-material v-for="(material, index) in materials" :key="index" :material="material" />
     <input type="submit" value="行を追加" class="recipe_material_button" @click="addRow">
     <input type="submit" value="行を削除" class="recipe_material_button" @click="delRow">
   </div>
 </template>
 
 <script>
-import recipeMaterial from './RecipeMaterial'
 
 export default {
-  components: {
-    'recipe-material': recipeMaterial
+  props: {
+    ingredients: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
   },
   data () {
     return {
-      materials: ['1', '2', '3', '4']
+      data: this.ingredients
     }
   },
   methods: {
+    inputTextName (id, $event) {
+      const amount = this.data[id - 1].amount
+      this.data[id - 1] = { id, name: $event.target.value, amount }
+      this.$emit('change-ingredients', this.data)
+    },
+    inputTextAmount (id, $event) {
+      const name = this.data[id - 1].name
+      this.data[id - 1] = { id, name, amount: $event.target.value }
+      this.$emit('change-ingredients', this.data)
+    },
     addRow () {
-      this.materials.push('')
+      this.data.push({ id: this.data.length + 1, name: '', amount: '' })
     },
     delRow () {
-      this.materials.pop()
+      this.data.pop()
     }
   }
 }
@@ -43,7 +72,7 @@ export default {
   margin: 5px;
 }
 
-.recipe_material_quantity {
+.recipe_material_amount {
   width: 50%;
   margin: 5px;
 }

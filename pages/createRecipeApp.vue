@@ -27,10 +27,10 @@
           <div class="recipe_material_wrapper">
             <div class="recipe_servings_wrapper">
               <label class="recipe_servings_label">材料：</label>
-              <input type="number" placeholder="２" min="1" class="recipe_servings">
+              <input v-model="servings" type="number" placeholder="2" min="1" class="recipe_servings">
               <label class="recipe_servings_label">人前</label>
             </div>
-            <recipe-material />
+            <recipe-material :ingredients="ingredientData" @change-ingredients="changeIngredients" />
           </div>
           <textarea v-model="memo" placeholder="ちょっとしたメモを残せます。次改善したい点などを書き残せます。例）次は辛さをもっと辛くしたい。" class="recipe_memo" />
         </div>
@@ -65,8 +65,16 @@ export default {
         { id: 4, howto: '' },
         { id: 5, howto: '' }
       ],
+      ingredientData: [
+        { id: 1, name: '', amount: '' },
+        { id: 2, name: '', amount: '' },
+        { id: 3, name: '', amount: '' },
+        { id: 4, name: '', amount: '' },
+        { id: 5, name: '', amount: '' }
+      ],
       photo: require('../assets/upload.svg'),
       name: '',
+      servings: 2,
       memo: '',
       error: ''
     }
@@ -83,10 +91,10 @@ export default {
       })
   },
   methods: {
-    setError (error, text) {
-      this.error = (error.response && error.response.data && error.response.data.error) || text
-    },
-    getBase64 (file) {
+    // setError (error, text) {
+    //   this.error = (error.response && error.response.data && error.response.data.error) || text
+    // },
+    createImage (file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
         reader.readAsDataURL(file)
@@ -94,25 +102,44 @@ export default {
         reader.onerror = error => reject(error)
       })
     },
-    onImageChange (e) {
-      const images = e.target.files || e.dataTransfer.files
-      this.getBase64(images[0])
+    onImageChange (event) {
+      const images = event.target.files
+      this.photo = images[0]
+      this.createImage(images[0])
         .then((image) => { this.photo = image })
-        .catch((error) => { this.setError(error, '画像のアップロードに失敗しました。') })
+        .catch(() => { this.error = '画像のアップロードに失敗しました。' })
     },
-    upload () {
-      if (this.photo) {
-        /* postで画像を送る処理をここに書く */
-        this.message = 'アップロードしました'
-        this.error = ''
-      } else {
-        this.error = '画像がありません'
-      }
-    },
+    // upload () {
+    //   if (this.photo) {
+    //     /* postで画像を送る処理をここに書く */
+    //     this.message = 'アップロードしました'
+    //     this.error = ''
+    //   } else {
+    //     this.error = '画像がありません'
+    //   }
+    // },
     insert () {
       const arrHowto = this.howtoData.filter(elem => elem.howto.trim())
+      const arrIngredient = this.ingredientData.filter(elem => elem.name.trim() && elem.amount.trim())
+      const formData = new FormData()
+      formData.append('', this.photo)
+      // const config = {
+      //   headers: {
+      //     'content-type': 'multipart/form-data'
+      //   }
+      // }
       this.$axios
-        .$post('http://127.0.0.1:8000/api/recipe', { name: this.name, genre: this.selectGenre, type: this.selectType, howto: arrHowto })
+        .$post('http://127.0.0.1:8000/api/recipe',
+          {
+            name: this.name,
+            genre_id: this.selectGenre,
+            type_id: this.selectType,
+            servings: this.servings,
+            howto: arrHowto,
+            ingredient: arrIngredient,
+            memo: this.memo,
+            photo: this.photo
+          })
         .then((response) => {
           this.data = response.data
         })
@@ -123,6 +150,9 @@ export default {
     },
     changeHowto (changeHowtos) {
       this.howtoData = changeHowtos
+    },
+    changeIngredients (changeIngredients) {
+      this.ingredientData = changeIngredients
     }
   }
 }
