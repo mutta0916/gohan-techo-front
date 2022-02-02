@@ -73,6 +73,7 @@ export default {
         { id: 5, name: '', amount: '' }
       ],
       photo: require('../assets/upload.svg'),
+      photoData: '',
       name: '',
       servings: 2,
       memo: '',
@@ -91,9 +92,6 @@ export default {
       })
   },
   methods: {
-    // setError (error, text) {
-    //   this.error = (error.response && error.response.data && error.response.data.error) || text
-    // },
     createImage (file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
@@ -104,42 +102,32 @@ export default {
     },
     onImageChange (event) {
       const images = event.target.files
-      this.photo = images[0]
-      this.createImage(images[0])
+      this.photoData = images[0]
+      this.createImage(this.photoData)
         .then((image) => { this.photo = image })
         .catch(() => { this.error = '画像のアップロードに失敗しました。' })
     },
-    // upload () {
-    //   if (this.photo) {
-    //     /* postで画像を送る処理をここに書く */
-    //     this.message = 'アップロードしました'
-    //     this.error = ''
-    //   } else {
-    //     this.error = '画像がありません'
-    //   }
-    // },
     insert () {
+      const formData = new FormData()
       const arrHowto = this.howtoData.filter(elem => elem.howto.trim())
       const arrIngredient = this.ingredientData.filter(elem => elem.name.trim() && elem.amount.trim())
-      const formData = new FormData()
-      formData.append('', this.photo)
-      // const config = {
-      //   headers: {
-      //     'content-type': 'multipart/form-data'
-      //   }
-      // }
+      console.log(arrHowto)
+      console.log(JSON.stringify(arrHowto))
+      formData.append('user_id', 1)
+      formData.append('name', this.name)
+      formData.append('genre_id', this.selectGenre)
+      formData.append('type_id', this.selectType)
+      formData.append('servings', this.servings)
+      formData.append('howto', JSON.stringify(arrHowto))
+      formData.append('ingredient', JSON.stringify(arrIngredient))
+      formData.append('photo', this.photoData)
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
       this.$axios
-        .$post('http://127.0.0.1:8000/api/recipe',
-          {
-            name: this.name,
-            genre_id: this.selectGenre,
-            type_id: this.selectType,
-            servings: this.servings,
-            howto: arrHowto,
-            ingredient: arrIngredient,
-            memo: this.memo,
-            photo: this.photo
-          })
+        .$post('http://127.0.0.1:8000/api/recipe', formData, config)
         .then((response) => {
           this.data = response.data
         })
