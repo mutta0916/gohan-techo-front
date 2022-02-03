@@ -1,7 +1,7 @@
 <template>
   <NuxtLink to="/createRecipeApp" class="item">
     <figure class="img_wrapper">
-      <img :src="photo" alt="料理画像">
+      <img :src="recipe.photo" alt="料理画像">
     </figure>
     <div class="main">
       <p class="recipe_name">

@@ -20,13 +20,21 @@ export default {
   },
   data () {
     return {
+      recipes: [],
       keyword: ''
     }
   },
+  async fetch () {
+    await this.$axios
+      .$get('http://127.0.0.1:8000/api/recipe', { params: { user_id: 1 } })
+      .then((response) => {
+        this.recipes = response.recipes
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
   computed: {
-    recipes () {
-      return this.$store.state.recipes
-    },
     filteredRecipes () {
       const searchRecipes = []
       for (const i in this.recipes) {
