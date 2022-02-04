@@ -1,7 +1,8 @@
 <template>
   <NuxtLink to="/createRecipeApp" class="item">
     <figure class="img_wrapper">
-      <img :src="photo" alt="料理画像">
+      <img v-if="recipe.photo===null" :src="require('../assets/upload.svg')" alt="料理画像">
+      <img v-else :src="recipe.photo" alt="料理画像">
     </figure>
     <div class="main">
       <p class="recipe_name">
@@ -24,11 +25,6 @@ export default {
       default () {
         return {}
       }
-    }
-  },
-  data () {
-    return {
-      photo: require('../assets/upload.svg')
     }
   }
 }
