@@ -13,7 +13,7 @@
             {{ row.type }}
           </option>
         </select>
-        <input type="submit" value="登録" class="button_insert" @click="insert">
+        <input type="submit" value="登録" class="button_insert" @click="register">
       </div>
       <div class="content_wrapper">
         <div class="left_content_wrapper">
@@ -47,6 +47,9 @@
 import recipeMaterial from '../components/RecipeMaterialList'
 import recipeHowtoGrp from '../components/RecipeHowtoGrp'
 
+const store = 0
+const update = 1
+
 export default {
   components: {
     'recipe-material': recipeMaterial,
@@ -54,6 +57,8 @@ export default {
   },
   data () {
     return {
+      mode: store,
+      recipeId: '',
       genres: [],
       selectGenre: '1',
       types: [],
@@ -81,8 +86,10 @@ export default {
     }
   },
   async fetch () {
-    await this.$axios
-      .$get('http://127.0.0.1:8000/api/recipe')
+    // const userId = this.$route.query.userId
+    this.recipeId = this.$route.query.recipeId
+    this.mode = this.recipeId ? update : store
+    await this.$axios.$get('http://127.0.0.1:8000/api/recipe')
       .then((response) => {
         this.genres = response.genres
         this.types = response.types
@@ -90,6 +97,18 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+    if (this.mode === update) {
+      await this.$axios.$get(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`)
+        .then((response) => {
+          this.name = response.recipes[0].name
+          this.photo = response.recipes[0].photo ? response.recipes[0].photo : require('../assets/upload.svg')
+          this.servings = response.recipes[0].servings ? response.recipes[0].servings : '2'
+          this.memo = response.recipes[0].memo ? response.recipes[0].memo : ''
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   },
   methods: {
     createImage (file) {
@@ -107,12 +126,18 @@ export default {
         .then((image) => { this.photo = image })
         .catch(() => { this.error = '画像のアップロードに失敗しました。' })
     },
-    insert () {
+    register () {
       const formData = new FormData()
       const arrHowto = this.howtoData.filter(elem => elem.howto.trim())
       const arrIngredient = this.ingredientData.filter(elem => elem.name.trim() && elem.amount.trim())
-      console.log(arrHowto)
+
+      console.log('値設定')
+      console.log(this.selectGenre)
+      console.log(this.selectType)
+      console.log(this.servings)
       console.log(JSON.stringify(arrHowto))
+      console.log(JSON.stringify(arrIngredient))
+
       formData.append('user_id', 1)
       formData.append('name', this.name)
       formData.append('genre_id', this.selectGenre)
@@ -121,20 +146,34 @@ export default {
       formData.append('howto', JSON.stringify(arrHowto))
       formData.append('ingredient', JSON.stringify(arrIngredient))
       formData.append('photo', this.photoData)
+      formData.append('memo', this.memo)
+      console.log(this.memo)
       const config = {
         headers: {
           'content-type': 'multipart/form-data'
         }
       }
-      this.$axios
-        .$post('http://127.0.0.1:8000/api/recipe', formData, config)
-        .then((response) => {
-          this.data = response.data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      this.input = ''
+      if (this.mode === update) {
+        this.$axios
+          .$put(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`, formData, config)
+          .then((response) => {
+            this.data = response.data
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        this.input = ''
+      } else {
+        this.$axios
+          .$post('http://127.0.0.1:8000/api/recipe', formData, config)
+          .then((response) => {
+            this.data = response.data
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        this.input = ''
+      }
     },
     changeHowto (changeHowtos) {
       this.howtoData = changeHowtos
