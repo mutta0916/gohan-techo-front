@@ -8,9 +8,9 @@
           :value="row.howto"
           type="text"
           class="recipe_howto"
-          @input="inputText(row.id, $event)"
+          @input="inputText(index, $event)"
         >
-        <input v-else :value="row.howto" type="text" class="recipe_howto" @input="inputText(row.id, $event)">
+        <input v-else :value="row.howto" type="text" class="recipe_howto" @input="inputText(index, $event)">
       </li>
     </ol>
     <input type="submit" value="行を追加" @click="addRow">
@@ -34,12 +34,12 @@ export default {
     }
   },
   methods: {
-    inputText (id, $event) {
-      this.data[id - 1] = { id, howto: $event.target.value }
+    inputText (index, $event) {
+      this.data[index] = { id: '0', howto: $event.target.value }
       this.$emit('change-howto', this.data)
     },
     addRow () {
-      this.data.push({ id: this.data.length + 1, howto: '' })
+      this.data.push({ id: '0', howto: '' })
     },
     delRow () {
       this.data.pop()

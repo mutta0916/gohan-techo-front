@@ -64,18 +64,18 @@ export default {
       types: [],
       selectType: '1',
       howtoData: [
-        { id: 1, howto: '' },
-        { id: 2, howto: '' },
-        { id: 3, howto: '' },
-        { id: 4, howto: '' },
-        { id: 5, howto: '' }
+        { id: '0', howto: '' },
+        { id: '0', howto: '' },
+        { id: '0', howto: '' },
+        { id: '0', howto: '' },
+        { id: '0', howto: '' }
       ],
       ingredientData: [
-        { id: 1, name: '', amount: '' },
-        { id: 2, name: '', amount: '' },
-        { id: 3, name: '', amount: '' },
-        { id: 4, name: '', amount: '' },
-        { id: 5, name: '', amount: '' }
+        { id: '0', name: '', amount: '' },
+        { id: '0', name: '', amount: '' },
+        { id: '0', name: '', amount: '' },
+        { id: '0', name: '', amount: '' },
+        { id: '0', name: '', amount: '' }
       ],
       photo: require('../assets/upload.svg'),
       photoData: '',
@@ -104,6 +104,7 @@ export default {
           this.photo = response.recipes[0].photo ? response.recipes[0].photo : require('../assets/upload.svg')
           this.servings = response.recipes[0].servings ? response.recipes[0].servings : '2'
           this.memo = response.recipes[0].memo ? response.recipes[0].memo : ''
+          this.howtoData = new Array(response.howtos)
         })
         .catch((error) => {
           console.log(error)
@@ -130,14 +131,6 @@ export default {
       const formData = new FormData()
       const arrHowto = this.howtoData.filter(elem => elem.howto.trim())
       const arrIngredient = this.ingredientData.filter(elem => elem.name.trim() && elem.amount.trim())
-
-      console.log('値設定')
-      console.log(this.selectGenre)
-      console.log(this.selectType)
-      console.log(this.servings)
-      console.log(JSON.stringify(arrHowto))
-      console.log(JSON.stringify(arrIngredient))
-
       formData.append('user_id', 1)
       formData.append('name', this.name)
       formData.append('genre_id', this.selectGenre)
@@ -147,22 +140,21 @@ export default {
       formData.append('ingredient', JSON.stringify(arrIngredient))
       formData.append('photo', this.photoData)
       formData.append('memo', this.memo)
-      console.log(this.memo)
       const config = {
         headers: {
           'content-type': 'multipart/form-data'
         }
       }
       if (this.mode === update) {
+        formData.append('_method', 'PUT')
         this.$axios
-          .$put(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`, formData, config)
+          .$post(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`, formData, config)
           .then((response) => {
             this.data = response.data
           })
           .catch((error) => {
             console.log(error)
           })
-        this.input = ''
       } else {
         this.$axios
           .$post('http://127.0.0.1:8000/api/recipe', formData, config)
@@ -172,7 +164,6 @@ export default {
           .catch((error) => {
             console.log(error)
           })
-        this.input = ''
       }
     },
     changeHowto (changeHowtos) {
