@@ -104,7 +104,10 @@ export default {
           this.photo = response.recipes[0].photo ? response.recipes[0].photo : require('../assets/upload.svg')
           this.servings = response.recipes[0].servings ? response.recipes[0].servings : '2'
           this.memo = response.recipes[0].memo ? response.recipes[0].memo : ''
-          this.howtoData = new Array(response.howtos)
+          this.howtoData.splice(0, this.howtoData.length)
+          this.howtoData.push(...response.howtos)
+          this.ingredientData.splice(0, this.ingredientData.length)
+          this.ingredientData.push(...response.ingredients)
         })
         .catch((error) => {
           console.log(error)
