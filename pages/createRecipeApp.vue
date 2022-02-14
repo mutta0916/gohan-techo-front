@@ -13,14 +13,14 @@
             {{ row.type }}
           </option>
         </select>
-        <input type="submit" value="登録" class="button_insert" @click="insert">
+        <input type="submit" value="登録" class="button_insert" @click="register">
       </div>
       <div class="content_wrapper">
         <div class="left_content_wrapper">
           <div class="recipe_photo_wrapper">
             <label>
               <img :src="photo" alt="クリックして画像を選択" class="recipe_photo">
-              <input class="recipe_upload" type="file" accept="image/jpeg, image/png" @change="onImageChange">
+              <input class="recipe_upload" type="file" accept="image/jpeg" @change="onImageChange">
               クリックしてアップロード
             </label>
           </div>
@@ -47,6 +47,9 @@
 import recipeMaterial from '../components/RecipeMaterialList'
 import recipeHowtoGrp from '../components/RecipeHowtoGrp'
 
+const store = 0
+const update = 1
+
 export default {
   components: {
     'recipe-material': recipeMaterial,
@@ -54,23 +57,25 @@ export default {
   },
   data () {
     return {
+      mode: store,
+      recipeId: '',
       genres: [],
       selectGenre: '1',
       types: [],
       selectType: '1',
       howtoData: [
-        { id: 1, howto: '' },
-        { id: 2, howto: '' },
-        { id: 3, howto: '' },
-        { id: 4, howto: '' },
-        { id: 5, howto: '' }
+        { id: '0', howto: '' },
+        { id: '0', howto: '' },
+        { id: '0', howto: '' },
+        { id: '0', howto: '' },
+        { id: '0', howto: '' }
       ],
       ingredientData: [
-        { id: 1, name: '', amount: '' },
-        { id: 2, name: '', amount: '' },
-        { id: 3, name: '', amount: '' },
-        { id: 4, name: '', amount: '' },
-        { id: 5, name: '', amount: '' }
+        { id: '0', name: '', amount: '' },
+        { id: '0', name: '', amount: '' },
+        { id: '0', name: '', amount: '' },
+        { id: '0', name: '', amount: '' },
+        { id: '0', name: '', amount: '' }
       ],
       photo: require('../assets/upload.svg'),
       photoData: '',
@@ -81,8 +86,9 @@ export default {
     }
   },
   async fetch () {
-    await this.$axios
-      .$get('http://127.0.0.1:8000/api/recipe')
+    this.recipeId = this.$route.query.recipeId
+    this.mode = this.recipeId ? update : store
+    await this.$axios.$get('http://127.0.0.1:8000/api/recipe')
       .then((response) => {
         this.genres = response.genres
         this.types = response.types
@@ -90,6 +96,22 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+    if (this.mode === update) {
+      await this.$axios.$get(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`)
+        .then((response) => {
+          this.name = response.recipes[0].name
+          this.photo = response.recipes[0].photo ? response.recipes[0].photo : require('../assets/upload.svg')
+          this.servings = response.recipes[0].servings ? response.recipes[0].servings : '2'
+          this.memo = response.recipes[0].memo ? response.recipes[0].memo : ''
+          this.howtoData.splice(0, this.howtoData.length)
+          this.howtoData.push(...response.howtos)
+          this.ingredientData.splice(0, this.ingredientData.length)
+          this.ingredientData.push(...response.ingredients)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   },
   methods: {
     createImage (file) {
@@ -107,12 +129,10 @@ export default {
         .then((image) => { this.photo = image })
         .catch(() => { this.error = '画像のアップロードに失敗しました。' })
     },
-    insert () {
+    register () {
       const formData = new FormData()
       const arrHowto = this.howtoData.filter(elem => elem.howto.trim())
       const arrIngredient = this.ingredientData.filter(elem => elem.name.trim() && elem.amount.trim())
-      console.log(arrHowto)
-      console.log(JSON.stringify(arrHowto))
       formData.append('user_id', 1)
       formData.append('name', this.name)
       formData.append('genre_id', this.selectGenre)
@@ -121,20 +141,32 @@ export default {
       formData.append('howto', JSON.stringify(arrHowto))
       formData.append('ingredient', JSON.stringify(arrIngredient))
       formData.append('photo', this.photoData)
+      formData.append('memo', this.memo)
       const config = {
         headers: {
           'content-type': 'multipart/form-data'
         }
       }
-      this.$axios
-        .$post('http://127.0.0.1:8000/api/recipe', formData, config)
-        .then((response) => {
-          this.data = response.data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      this.input = ''
+      if (this.mode === update) {
+        formData.append('_method', 'PUT')
+        this.$axios
+          .$post(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`, formData, config)
+          .then((response) => {
+            this.data = response.data
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.$axios
+          .$post('http://127.0.0.1:8000/api/recipe', formData, config)
+          .then((response) => {
+            this.data = response.data
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
     },
     changeHowto (changeHowtos) {
       this.howtoData = changeHowtos

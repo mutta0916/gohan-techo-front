@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink to="/createRecipeApp" class="item">
+  <NuxtLink :to="{ path: 'createRecipeApp', query: { userId: recipe.user_id, recipeId: recipe.id } }" class="item">
     <figure class="img_wrapper">
       <img v-if="recipe.photo===null" :src="require('../assets/upload.svg')" alt="料理画像">
       <img v-else :src="recipe.photo" alt="料理画像">

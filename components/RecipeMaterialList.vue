@@ -7,18 +7,18 @@
         :value="row.name"
         type="text"
         class="recipe_material_name"
-        @input="inputTextName(row.id, $event)"
+        @input="inputTextName(index, $event)"
       >
-      <input v-else :value="row.name" type="text" class="recipe_material_name" @input="inputTextName(row.id, $event)">
+      <input v-else :value="row.name" type="text" class="recipe_material_name" @input="inputTextName(index, $event)">
       <input
         v-if="index === 0"
         placeholder="分量"
         :value="row.amount"
         type="text"
         class="recipe_material_amount"
-        @input="inputTextAmount(row.id, $event)"
+        @input="inputTextAmount(index, $event)"
       >
-      <input v-else :value="row.amount" type="text" class="recipe_material_name" @input="inputTextAmount(row.id, $event)">
+      <input v-else :value="row.amount" type="text" class="recipe_material_name" @input="inputTextAmount(index, $event)">
     </div>
     <input type="submit" value="行を追加" class="recipe_material_button" @click="addRow">
     <input type="submit" value="行を削除" class="recipe_material_button" @click="delRow">
@@ -42,18 +42,18 @@ export default {
     }
   },
   methods: {
-    inputTextName (id, $event) {
-      const amount = this.data[id - 1].amount
-      this.data[id - 1] = { id, name: $event.target.value, amount }
+    inputTextName (index, $event) {
+      const amount = this.data[index].amount
+      this.data[index] = { id: '0', name: $event.target.value, amount }
       this.$emit('change-ingredients', this.data)
     },
-    inputTextAmount (id, $event) {
-      const name = this.data[id - 1].name
-      this.data[id - 1] = { id, name, amount: $event.target.value }
+    inputTextAmount (index, $event) {
+      const name = this.data[index].name
+      this.data[index] = { id: '0', name, amount: $event.target.value }
       this.$emit('change-ingredients', this.data)
     },
     addRow () {
-      this.data.push({ id: this.data.length + 1, name: '', amount: '' })
+      this.data.push({ id: '0', name: '', amount: '' })
     },
     delRow () {
       this.data.pop()
