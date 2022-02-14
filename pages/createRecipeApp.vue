@@ -20,7 +20,7 @@
           <div class="recipe_photo_wrapper">
             <label>
               <img :src="photo" alt="クリックして画像を選択" class="recipe_photo">
-              <input class="recipe_upload" type="file" accept="image/jpeg, image/png" @change="onImageChange">
+              <input class="recipe_upload" type="file" accept="image/jpeg" @change="onImageChange">
               クリックしてアップロード
             </label>
           </div>
@@ -86,7 +86,6 @@ export default {
     }
   },
   async fetch () {
-    // const userId = this.$route.query.userId
     this.recipeId = this.$route.query.recipeId
     this.mode = this.recipeId ? update : store
     await this.$axios.$get('http://127.0.0.1:8000/api/recipe')
