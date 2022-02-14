@@ -14,6 +14,7 @@
           </option>
         </select>
         <input type="submit" value="登録" class="button_insert" @click="register">
+        <input type="submit" value="削除" class="button_delete" @click="destroy">
       </div>
       <div class="content_wrapper">
         <div class="left_content_wrapper">
@@ -151,8 +152,8 @@ export default {
         formData.append('_method', 'PUT')
         this.$axios
           .$post(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`, formData, config)
-          .then((response) => {
-            this.data = response.data
+          .then(() => {
+            window.location.href = '/recipeListApp'
           })
           .catch((error) => {
             console.log(error)
@@ -160,13 +161,23 @@ export default {
       } else {
         this.$axios
           .$post('http://127.0.0.1:8000/api/recipe', formData, config)
-          .then((response) => {
-            this.data = response.data
+          .then(() => {
+            window.location.href = '/recipeListApp'
           })
           .catch((error) => {
             console.log(error)
           })
       }
+    },
+    destroy () {
+      this.$axios
+        .$delete(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`)
+        .then(() => {
+          window.location.href = '/recipeListApp'
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     changeHowto (changeHowtos) {
       this.howtoData = changeHowtos
@@ -261,7 +272,13 @@ h2 {
 }
 
 .button_insert {
+  margin: 5px;
   background-color: #8bd4ddd3;
+}
+
+.button_delete {
+  margin: 5px;
+  background-color: #ff80b0;
 }
 
 .select {
