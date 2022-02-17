@@ -1,32 +1,15 @@
 <template>
   <div class="content_wrapper">
     <input type="text" placeholder="献立名称 例)朝ごはん" class="name">
-    <div class="img_wrapper_line">
+    <div v-for="index in 3" :key="index" class="img_wrapper_line">
       <img
-        v-for="index in 2"
-        :key="index"
+        v-for="indexImg in 2"
+        :key="indexImg"
         :src="photo"
         alt="献立画像"
         class="photo"
-        @click="click">
-    </div>
-    <div class="img_wrapper_line">
-      <img
-        v-for="index in 2"
-        :key="index"
-        :src="photo"
-        alt="献立画像"
-        class="photo"
-        @click="click">
-    </div>
-    <div class="img_wrapper_line">
-      <img
-        v-for="index in 2"
-        :key="index"
-        :src="photo"
-        alt="献立画像"
-        class="photo"
-        @click="click">
+        @click="click"
+      >
     </div>
   </div>
 </template>
@@ -47,7 +30,7 @@ export default {
     }
   },
   methods: {
-    click () {
+    click (event) {
       this.$emit('modal-child-click', true)
     }
   }

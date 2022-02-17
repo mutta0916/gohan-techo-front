@@ -2,9 +2,8 @@
   <div class="content_wrapper">
     <div class="content_header">
       <div class="day">
-        {{ objDay.day }}日 ({{ objDay.week }})
+        {{ dayInfo.day }}日 ({{ dayInfo.week }})
       </div>
-      <input type="text" name="name" placeholder="メモを入力できます。" class="memo">
     </div>
     <div class="content_main">
       <menu-card v-for="index in 3" :key="index" class="menu_card" @modal-child-click="click" />
@@ -20,11 +19,19 @@ export default {
     'menu-card': menuCard
   },
   props: {
-    objDay: {
+    dayInfo: {
       type: Object,
       default () {
         return {}
       }
+    },
+    selectRecipeId: {
+      type: Number,
+      default: 0
+    },
+    selectPhoto: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -59,10 +66,6 @@ export default {
   background-color: #fc90b9;
   color: white;
   padding: 5px;
-}
-
-.memo {
-  flex: 0 1 30%;
 }
 
 .content_main {

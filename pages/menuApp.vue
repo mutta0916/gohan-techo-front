@@ -7,10 +7,18 @@
         <input type="submit" value="" class="next_month" @click="forward">
       </div>
       <div class="list">
-        <daily-menu v-for="(day, index) in days" :key="index" :obj-day="day" class="each_menu" @modal-child-click="click" />
+        <daily-menu
+          v-for="(day, index) in days"
+          :key="index"
+          :day-info="day"
+          :select-recipe-id="selectRecipeId"
+          :select-photo="selectPhoto"
+          class="each_menu"
+          @modal-child-click="click"
+        />
       </div>
     </div>
-    <recipe-select v-if="showModal" @close="close" @selectDish="selectDish" />
+    <recipe-select v-if="showModal" :recipes="recipes" @close="close" @selectDish="selectDish" />
     <a href="#" class="page_top">トップへ</a>
   </div>
 </template>
@@ -26,11 +34,47 @@ export default {
   },
   data () {
     return {
+      recipes: [],
       keyword: '',
       year: (new Date()).getFullYear(),
       month: (new Date()).getMonth() + 1,
-      showModal: false
+      showModal: false,
+      selectRecipeId: 0,
+      selectPhoto: '',
+
+      // データ構造を考慮中。。。
+      // 朝昼夕
+      selectedKbn: '',
+      // 朝昼夕区分の中での順番
+      selectedOrder: '',
+      menus: [{
+        date: '2/1',
+        category: '朝',
+        order:'0',
+        recipeId: '1'
+      },
+      {
+        date: '2/1',
+        category: '朝',
+        order:'1',
+        recipeId: '1'
+      },
+      {
+        date: '2/2',
+        category: '',
+        order:''
+      }]
     }
+  },
+  async fetch () {
+    await this.$axios
+      .$get('http://127.0.0.1:8000/api/recipe', { params: { user_id: 1 } })
+      .then((response) => {
+        this.recipes = response.recipes
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
   computed: {
     days () {
@@ -62,10 +106,10 @@ export default {
       this.year = date.getFullYear()
       this.month = date.getMonth() + 1
     },
-    selectDish (id) {
+    selectDish (id, photo) {
       this.showModal = false
-      // idから写真を取得し、メイン画面に反映させる
-      alert(id)
+      this.selectRecipeId = id
+      this.selectPhoto = photo
     },
     click (showModalFlg) {
       this.showModal = showModalFlg
