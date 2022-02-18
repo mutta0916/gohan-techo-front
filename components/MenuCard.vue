@@ -1,11 +1,103 @@
 <template>
   <div class="content_wrapper">
-    <input type="text" placeholder="献立名称 例)朝ごはん" class="name">
-    <div v-for="index in 3" :key="index" class="img_wrapper_line">
-      <img
-        v-for="indexImg in 2"
+    <input v-model="title" type="text" placeholder="献立名称 例)朝ごはん" class="title">
+    <!-- <div v-for="(categoryMenu, index) in categoryMenus.data" :key="index">
+    </div> -->
+    <!-- <div v-for="index in 3" :key="index" class="img_wrapper_line"> -->
+    <!-- <div v-for="(categoryMenu, index) in categoryMenus.data" :key="index" class="img_wrapper_line"> -->
+    <!-- <img
         :key="indexImg"
-        :src="photo"
+        :src="categoryMenus.data[0].recipe_photo"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+    </div> -->
+    <div class="img_wrapper_line">
+      <img
+        v-if="!categoryMenus.data[0].recipe_photo"
+        :src="require('../assets/upload.svg')"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-else
+        :src="categoryMenus.data[0].recipe_photo"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-if="!categoryMenus.data[1].recipe_photo"
+        :src="require('../assets/upload.svg')"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-else
+        :src="categoryMenus.data[1].recipe_photo"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+    </div>
+    <div class="img_wrapper_line">
+      <img
+        v-if="!categoryMenus.data[2].recipe_photo"
+        :src="require('../assets/upload.svg')"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-else
+        :src="categoryMenus.data[2].recipe_photo"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-if="!categoryMenus.data[3].recipe_photo"
+        :src="require('../assets/upload.svg')"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-else
+        :src="categoryMenus.data[3].recipe_photo"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+    </div>
+    <div class="img_wrapper_line">
+      <img
+        v-if="!categoryMenus.data[4].recipe_photo"
+        :src="require('../assets/upload.svg')"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-else
+        :src="categoryMenus.data[4].recipe_photo"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-if="!categoryMenus.data[5].recipe_photo"
+        :src="require('../assets/upload.svg')"
+        alt="献立画像"
+        class="photo"
+        @click="click"
+      >
+      <img
+        v-else
+        :src="categoryMenus.data[5].recipe_photo"
         alt="献立画像"
         class="photo"
         @click="click"
@@ -17,7 +109,13 @@
 <script scoped>
 export default {
   props: {
-    recipe: {
+    categoryMenus: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    recipes: {
       type: Object,
       default () {
         return {}
@@ -26,7 +124,8 @@ export default {
   },
   data () {
     return {
-      photo: require('../assets/upload.svg')
+      photo: require('../assets/upload.svg'),
+      title: this.categoryMenus.title
     }
   },
   methods: {
@@ -38,7 +137,7 @@ export default {
 </script>
 
 <style scoped>
-.name {
+.title {
   margin-bottom: 5px;
 }
 

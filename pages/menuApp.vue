@@ -8,11 +8,9 @@
       </div>
       <div class="list">
         <daily-menu
-          v-for="(day, index) in days"
+          v-for="(dailyMenus, index) in allMenus"
           :key="index"
-          :day-info="day"
-          :select-recipe-id="selectRecipeId"
-          :select-photo="selectPhoto"
+          :daily-menus="dailyMenus"
           class="each_menu"
           @modal-child-click="click"
         />
@@ -41,29 +39,9 @@ export default {
       showModal: false,
       selectRecipeId: 0,
       selectPhoto: '',
-
-      // データ構造を考慮中。。。
-      // 朝昼夕
-      selectedKbn: '',
-      // 朝昼夕区分の中での順番
-      selectedOrder: '',
-      menus: [{
-        date: '2/1',
-        category: '朝',
-        order:'0',
-        recipeId: '1'
-      },
-      {
-        date: '2/1',
-        category: '朝',
-        order:'1',
-        recipeId: '1'
-      },
-      {
-        date: '2/2',
-        category: '',
-        order:''
-      }]
+      selectedCategory: '',
+      selectedLocation: '',
+      allMenus: []
     }
   },
   async fetch () {
@@ -75,23 +53,13 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-  },
-  computed: {
-    days () {
-      const days = (new Date(this.year, this.month, 0)).getDate()
-      const array = []
-      const dayName = ['日', '月', '火', '水', '木', '金', '土']
-      for (let i = 0; i < days; i++) {
-        const week = (new Date(this.year, this.month, i + 1)).getDay()
-        array.push({
-          year: this.year,
-          month: this.month,
-          day: i + 1,
-          week: dayName[week]
-        })
-      }
-      return array
-    }
+    await this.$axios.$get('http://127.0.0.1:8000/api/menu')
+      .then((response) => {
+        this.allMenus = response.menus
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
   methods: {
     back () {
