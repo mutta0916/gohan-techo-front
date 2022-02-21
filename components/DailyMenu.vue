@@ -11,7 +11,7 @@
         :key="index"
         :category-menus="categoryMenus"
         class="menu_card"
-        @modal-child-click="click"
+        @modal-child-click="click($event, index)"
       />
     </div>
   </div>
@@ -52,8 +52,8 @@ export default {
     }
   },
   methods: {
-    click (showModalFlg) {
-      this.$emit('modal-child-click', showModalFlg)
+    click (eventArgs, category) {
+      this.$emit('modal-child-click', { showModalFlg: eventArgs.showModalFlg, location: eventArgs.location, category })
     },
     getWeek (date) {
       const dayName = ['日', '月', '火', '水', '木', '金', '土']

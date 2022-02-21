@@ -12,7 +12,7 @@
           :key="index"
           :daily-menus="dailyMenus"
           class="each_menu"
-          @modal-child-click="click"
+          @modal-child-click="click($event, dailyMenus.date)"
         />
       </div>
     </div>
@@ -33,12 +33,10 @@ export default {
   data () {
     return {
       recipes: [],
-      keyword: '',
       year: (new Date()).getFullYear(),
       month: (new Date()).getMonth() + 1,
       showModal: false,
-      selectRecipeId: 0,
-      selectPhoto: '',
+      selectedDate: '',
       selectedCategory: '',
       selectedLocation: '',
       allMenus: []
@@ -76,11 +74,41 @@ export default {
     },
     selectDish (id, photo) {
       this.showModal = false
-      this.selectRecipeId = id
-      this.selectPhoto = photo
+      // クリックした項目に値を反映
+      // 日付のインデックスを取得
+      const filterDate = this.allMenus.filter(elem => elem.date === this.selectedDate)
+      const filterDateIndex = this.allMenus.findIndex(({ date }) => date === this.selectedDate)
+      // 区分のインデックスを取得
+      const filterCategory = filterDate[0].data.filter(elem => elem.category === this.selectedCategory)
+      const filterCategoryIndex = filterDate[0].data.findIndex(({ category }) => category === this.selectedCategory)
+      // 位置のインデックスを取得
+      const filterLocationIndex = filterCategory[0].data.findIndex(({ location }) => location === this.selectedLocation)
+      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_id = id
+      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_photo = photo
+
+      // 献立情報更新
+      this.$axios
+        .$post('http://127.0.0.1:8000/api/menu',
+          {
+            user_id: 1,
+            menu_id: this.allMenus[filterDateIndex].id,
+            date: this.allMenus[filterDateIndex].date,
+            category: this.selectedCategory,
+            location: this.selectedLocation,
+            recipe_id: id
+          })
+        .then((response) => {
+          this.allMenus = response.menus
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
-    click (showModalFlg) {
-      this.showModal = showModalFlg
+    click (eventArgs, date) {
+      this.showModal = eventArgs.showModalFlg
+      this.selectedDate = date
+      this.selectedCategory = eventArgs.category
+      this.selectedLocation = eventArgs.location
     },
     close () {
       this.showModal = false

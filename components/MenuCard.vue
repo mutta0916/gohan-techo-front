@@ -7,28 +7,28 @@
         :src="require('../assets/upload.svg')"
         alt="献立画像"
         class="photo"
-        @click="click"
+        @click="click(( n - 1 ) * 2)"
       >
       <img
         v-else
         :src="categoryMenus.data[( n - 1 ) * 2].recipe_photo"
         alt="献立画像"
         class="photo"
-        @click="click"
+        @click="click(( n - 1 ) * 2)"
       >
       <img
         v-if="!categoryMenus.data[2 * n - 1].recipe_photo"
         :src="require('../assets/upload.svg')"
         alt="献立画像"
         class="photo"
-        @click="click"
+        @click="click(2 * n - 1)"
       >
       <img
         v-else
         :src="categoryMenus.data[2 * n - 1].recipe_photo"
         alt="献立画像"
         class="photo"
-        @click="click"
+        @click="click(2 * n - 1)"
       >
     </div>
   </div>
@@ -57,8 +57,8 @@ export default {
     }
   },
   methods: {
-    click (event) {
-      this.$emit('modal-child-click', true)
+    click (location) {
+      this.$emit('modal-child-click', { showModalFlg: true, location })
     }
   }
 }
