@@ -1,7 +1,8 @@
 <template>
   <div class="content_wrapper">
-    <input v-model="title" type="text" placeholder="献立名称 例)朝ごはん" class="title">
+    <input v-model="title" type="text" placeholder="献立名称 例)朝ごはん" class="title" @change="change">
     <div v-for="n in 3" :key="n" class="img_wrapper_line">
+      <p>{{ categoryMenus.data[( n - 1 ) * 2].name }}</p>
       <img
         v-if="!categoryMenus.data[( n - 1 ) * 2].recipe_photo"
         :src="require('../assets/upload.svg')"
@@ -16,6 +17,7 @@
         class="photo"
         @click="click(( n - 1 ) * 2)"
       >
+      <p>{{ categoryMenus.data[2 * n - 1].name }}</p>
       <img
         v-if="!categoryMenus.data[2 * n - 1].recipe_photo"
         :src="require('../assets/upload.svg')"
@@ -57,6 +59,9 @@ export default {
     }
   },
   methods: {
+    change () {
+      this.$emit('change-title', this.title)
+    },
     click (location) {
       this.$emit('modal-child-click', { showModalFlg: true, location })
     }

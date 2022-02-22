@@ -11,6 +11,7 @@
         :key="index"
         :category-menus="categoryMenus"
         class="menu_card"
+        @change-title="changeTitle($event, index)"
         @modal-child-click="click($event, index)"
       />
     </div>
@@ -52,6 +53,9 @@ export default {
     }
   },
   methods: {
+    changeTitle (title, category) {
+      this.$emit('change-title', { title, category })
+    },
     click (eventArgs, category) {
       this.$emit('modal-child-click', { showModalFlg: eventArgs.showModalFlg, location: eventArgs.location, category })
     },

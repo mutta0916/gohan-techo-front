@@ -12,6 +12,7 @@
           :key="index"
           :daily-menus="dailyMenus"
           class="each_menu"
+          @change-title="changeTitle($event, dailyMenus.date)"
           @modal-child-click="click($event, dailyMenus.date)"
         />
       </div>
@@ -51,7 +52,7 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    await this.$axios.$get('http://127.0.0.1:8000/api/menu')
+    await this.$axios.$get('http://127.0.0.1:8000/api/menu', { params: { user_id: 1, year: this.year, month: this.month } })
       .then((response) => {
         this.allMenus = response.menus
       })
@@ -65,14 +66,47 @@ export default {
       date.setMonth(date.getMonth() - 1)
       this.year = date.getFullYear()
       this.month = date.getMonth() + 1
+      this.$axios.$get('http://127.0.0.1:8000/api/menu', { params: { user_id: 1, year: this.year, month: this.month } })
+        .then((response) => {
+          this.allMenus = response.menus
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     forward () {
       const date = new Date(this.year, this.month - 1)
       date.setMonth(date.getMonth() + 1)
       this.year = date.getFullYear()
       this.month = date.getMonth() + 1
+      this.$axios.$get('http://127.0.0.1:8000/api/menu', { params: { user_id: 1, year: this.year, month: this.month } })
+        .then((response) => {
+          this.allMenus = response.menus
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
-    selectDish (id, photo) {
+    changeTitle (eventArgs, selectedDate) {
+      // 日付のインデックスを取得
+      const filterDateIndex = this.allMenus.findIndex(({ date }) => date === selectedDate)
+      // 献立情報更新
+      this.$axios
+        .$post('http://127.0.0.1:8000/api/menu',
+          {
+            user_id: 1,
+            menu_id: this.allMenus[filterDateIndex].data[eventArgs.category].id,
+            date: this.allMenus[filterDateIndex].date,
+            category: eventArgs.category,
+            title: eventArgs.title,
+            location: 0,
+            recipe_id: 0
+          })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    selectDish (id, name, photo) {
       this.showModal = false
       // クリックした項目に値を反映
       // 日付のインデックスを取得
@@ -84,6 +118,7 @@ export default {
       // 位置のインデックスを取得
       const filterLocationIndex = filterCategory[0].data.findIndex(({ location }) => location === this.selectedLocation)
       this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_id = id
+      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_name = name
       this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_photo = photo
 
       // 献立情報更新
@@ -91,15 +126,13 @@ export default {
         .$post('http://127.0.0.1:8000/api/menu',
           {
             user_id: 1,
-            menu_id: this.allMenus[filterDateIndex].id,
+            menu_id: this.allMenus[filterDateIndex].data[filterCategoryIndex].id,
             date: this.allMenus[filterDateIndex].date,
             category: this.selectedCategory,
+            title: '',
             location: this.selectedLocation,
             recipe_id: id
           })
-        .then((response) => {
-          this.allMenus = response.menus
-        })
         .catch((error) => {
           console.log(error)
         })

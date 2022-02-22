@@ -14,7 +14,7 @@
           <input v-model="keyword" type="text" placeholder="ここから検索ができます。" class="search">
         </div>
         <div class="content_body">
-          <div v-for="(recipe, index) in filteredRecipes" :key="index" class="photo_wrapper" @click="selectDish(recipe.id, recipe.photo)">
+          <div v-for="(recipe, index) in filteredRecipes" :key="index" class="photo_wrapper" @click="selectDish(recipe.id, recipe.name, recipe.photo)">
             <p>{{ recipe.name }}</p>
             <figure>
               <img
@@ -41,9 +41,9 @@
 export default {
   props: {
     recipes: {
-      type: Object,
+      type: Array,
       default () {
-        return {}
+        return []
       }
     }
   },
@@ -58,8 +58,8 @@ export default {
     }
   },
   methods: {
-    selectDish (id, photo) {
-      this.$emit('selectDish', id, photo)
+    selectDish (id, name, photo) {
+      this.$emit('selectDish', id, name, photo)
     }
   }
 }
