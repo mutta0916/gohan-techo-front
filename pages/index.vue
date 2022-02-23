@@ -2,7 +2,10 @@
   <div id="app">
     <div class="content_wrapper">
       <h1>ごはん手帳</h1>
-      <div class="login">
+      <button type="button" class="button_login" @click="login">
+        おた飯利用
+      </button>
+      <!-- <div class="login">
         <h2>ログイン</h2>
         <div class="content_main">
           <p>
@@ -14,22 +17,27 @@
             <input-password />
           </p>
         </div>
-        <button type="button" class="button_login">
+        <button type="button" class="button_login" @click="login">
           ログイン
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-import inputPassword from '../components/InputPassword.vue'
+// import inputPassword from '../components/InputPassword.vue'
 
 export default {
-  components: {
-    'input-password': inputPassword
-  },
-  layout: 'home'
+  // components: {
+  //   'input-password': inputPassword
+  // },
+  layout: 'home',
+  methods: {
+    login () {
+      window.location.href = '/createRecipeApp'
+    }
+  }
 }
 </script>
 
@@ -49,9 +57,9 @@ export default {
 }
 
 h1 {
-  color: white;
+  /* color: white; */
   margin: 30px;
-  font-size: 40px;
+  font-size: 50px;
 }
 
 .login {
@@ -81,12 +89,12 @@ input {
 
 .button_login {
   padding: 10px 0;
-  width: 25%;
+  width: 15%;
   background-color: #f3d2c1;
   border: none;
   border-radius: 5px;
   text-align: center;
-  font-size: 15px;
+  font-size: bold 15px;
   opacity: 1;
 }
 

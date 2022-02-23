@@ -14,6 +14,7 @@
           class="each_menu"
           @change-title="changeTitle($event, dailyMenus.date)"
           @modal-child-click="click($event, dailyMenus.date)"
+          @clear="clear($event, dailyMenus.date)"
         />
       </div>
     </div>
@@ -25,6 +26,9 @@
 <script scoped>
 import dailyMenu from '../components/DailyMenu'
 import recipeSelect from '../components/RecipeSelect'
+
+const title = 0
+const menu = 1
 
 export default {
   components: {
@@ -91,6 +95,7 @@ export default {
       // 日付のインデックスを取得
       const filterDateIndex = this.allMenus.findIndex(({ date }) => date === selectedDate)
       // 献立情報更新
+      this.allMenus[filterDateIndex].data[eventArgs.category].title = eventArgs.title
       this.$axios
         .$post('http://127.0.0.1:8000/api/menu',
           {
@@ -100,7 +105,9 @@ export default {
             category: eventArgs.category,
             title: eventArgs.title,
             location: 0,
-            recipe_id: 0
+            menu_recipes_id: 0,
+            recipe_id: 0,
+            update_target: title
           })
         .catch((error) => {
           console.log(error)
@@ -129,9 +136,11 @@ export default {
             menu_id: this.allMenus[filterDateIndex].data[filterCategoryIndex].id,
             date: this.allMenus[filterDateIndex].date,
             category: this.selectedCategory,
-            title: '',
+            title: this.allMenus[filterDateIndex].data[filterCategoryIndex].title,
             location: this.selectedLocation,
-            recipe_id: id
+            menu_recipes_id: this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].menu_recipes_id,
+            recipe_id: id,
+            update_target: menu
           })
         .catch((error) => {
           console.log(error)
@@ -142,6 +151,30 @@ export default {
       this.selectedDate = date
       this.selectedCategory = eventArgs.category
       this.selectedLocation = eventArgs.location
+    },
+    clear (eventArgs, selectedDate) {
+      // 日付のインデックスを取得
+      const filterDate = this.allMenus.filter(elem => elem.date === selectedDate)
+      const filterDateIndex = this.allMenus.findIndex(({ date }) => date === selectedDate)
+      // 区分のインデックスを取得
+      const filterCategory = filterDate[0].data.filter(elem => elem.category === eventArgs.category)
+      const filterCategoryIndex = filterDate[0].data.findIndex(({ category }) => category === eventArgs.category)
+      // 位置のインデックスを取得
+      const filterLocationIndex = filterCategory[0].data.findIndex(({ location }) => location === eventArgs.location)
+      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].menu_recipes_id = 0
+      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].location = 0
+      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_id = 0
+      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_name = ''
+      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_photo = ''
+      this.$axios
+        .$delete(`http://127.0.0.1:8000/api/menu/${eventArgs.menuRecipesId}`)
+        .then(() => {
+          // 処理なし
+          console.log(this.allMenus)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     close () {
       this.showModal = false

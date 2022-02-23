@@ -28,13 +28,13 @@
                   </NuxtLink>
                 </li>
               </div>
-              <div class="light_navbar">
+              <!-- <div class="light_navbar">
                 <li>
                   <NuxtLink to="/" @click.native.prevent="trigger">
                     サインアウト
                   </NuxtLink>
                 </li>
-              </div>
+              </div> -->
             </ul>
           </div>
         </nav>

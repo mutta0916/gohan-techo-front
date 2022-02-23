@@ -13,6 +13,7 @@
         class="menu_card"
         @change-title="changeTitle($event, index)"
         @modal-child-click="click($event, index)"
+        @clear="clear($event, index)"
       />
     </div>
   </div>
@@ -58,6 +59,9 @@ export default {
     },
     click (eventArgs, category) {
       this.$emit('modal-child-click', { showModalFlg: eventArgs.showModalFlg, location: eventArgs.location, category })
+    },
+    clear (eventArgs, category) {
+      this.$emit('clear', { menuRecipesId: eventArgs.menuRecipesId, location: eventArgs.location, category })
     },
     getWeek (date) {
       const dayName = ['日', '月', '火', '水', '木', '金', '土']
