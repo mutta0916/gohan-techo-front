@@ -14,14 +14,22 @@
           <input v-model="keyword" type="text" placeholder="ここから検索ができます。" class="search">
         </div>
         <div class="content_body">
-          <div v-for="(recipe, index) in filteredRecipes" :key="index" class="photo_wrapper" @click="selectDish(recipe.id)">
+          <div v-for="(recipe, index) in filteredRecipes" :key="index" class="photo_wrapper" @click="selectDish(recipe.id, recipe.name, recipe.photo)">
             <p>{{ recipe.name }}</p>
-            <img
-              :src="photo"
-              alt="献立画像"
-              class="photo"
-              @click="click"
-            >
+            <figure>
+              <img
+                v-if="recipe.photo===null"
+                :src="require('../assets/upload.svg')"
+                alt="料理画像"
+                class="photo"
+              >
+              <img
+                v-else
+                :src="recipe.photo"
+                alt="料理画像"
+                class="photo"
+              >
+            </figure>
           </div>
         </div>
       </div>
@@ -31,30 +39,27 @@
 
 <script>
 export default {
+  props: {
+    recipes: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
-      text: '',
-      photo: require('../assets/upload.svg')
+      keyword: ''
     }
   },
   computed: {
-    recipes () {
-      return this.$store.state.recipes
-    },
     filteredRecipes () {
-      const recipes = []
-      for (const i in this.recipes) {
-        const recipe = this.recipes[i]
-        if (recipe.name.includes(this.text) !== -1) {
-          recipes.push(recipe)
-        }
-      }
-      return recipes
+      return this.recipes.filter(elem => elem.name.includes(this.keyword) || elem.genre.includes(this.keyword) || elem.type.includes(this.keyword))
     }
   },
   methods: {
-    selectDish (id) {
-      this.$emit('selectDish', id)
+    selectDish (id, name, photo) {
+      this.$emit('selectDish', id, name, photo)
     }
   }
 }
@@ -141,6 +146,10 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+figure {
+  margin: 0;
 }
 
 .photo {

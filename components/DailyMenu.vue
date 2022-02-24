@@ -2,12 +2,19 @@
   <div class="content_wrapper">
     <div class="content_header">
       <div class="day">
-        {{ objDay.day }}日 ({{ objDay.week }})
+        {{ (new Date(dailyMenus.date)).getDate() }}日 ({{ getWeek(new Date(dailyMenus.date)) }})
       </div>
-      <input type="text" name="name" placeholder="メモを入力できます。" class="memo">
     </div>
     <div class="content_main">
-      <menu-card v-for="index in 3" :key="index" class="menu_card" @modal-child-click="click" />
+      <menu-card
+        v-for="(categoryMenus, index) in dailyMenus.data"
+        :key="index"
+        :category-menus="categoryMenus"
+        class="menu_card"
+        @change-title="changeTitle($event, index)"
+        @modal-child-click="click($event, index)"
+        @clear="clear($event, index)"
+      />
     </div>
   </div>
 </template>
@@ -20,22 +27,46 @@ export default {
     'menu-card': menuCard
   },
   props: {
-    objDay: {
+    dailyMenus: {
       type: Object,
       default () {
         return {}
       }
+    },
+    recipes: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    selectRecipeId: {
+      type: Number,
+      default: 0
+    },
+    selectPhoto: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
-      week: (new Date(this.year, this.month, 0)).getDay(),
       showModal: false
     }
   },
   methods: {
-    click (showModalFlg) {
-      this.$emit('modal-child-click', showModalFlg)
+    changeTitle (title, category) {
+      this.$emit('change-title', { title, category })
+    },
+    click (eventArgs, category) {
+      this.$emit('modal-child-click', { showModalFlg: eventArgs.showModalFlg, location: eventArgs.location, category })
+    },
+    clear (eventArgs, category) {
+      this.$emit('clear', { menuRecipesId: eventArgs.menuRecipesId, location: eventArgs.location, category })
+    },
+    getWeek (date) {
+      const dayName = ['日', '月', '火', '水', '木', '金', '土']
+      const week = date.getDay()
+      return dayName[week]
     }
   }
 }
@@ -59,10 +90,6 @@ export default {
   background-color: #fc90b9;
   color: white;
   padding: 5px;
-}
-
-.memo {
-  flex: 0 1 30%;
 }
 
 .content_main {
