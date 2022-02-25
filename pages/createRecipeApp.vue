@@ -89,9 +89,15 @@ export default {
   async fetch () {
     this.recipeId = this.$route.query.recipeId
     this.mode = this.recipeId ? update : store
-    await this.$axios.$get('http://127.0.0.1:8000/api/recipe')
+    await this.$axios.$get('http://127.0.0.1:8000/api/genre')
       .then((response) => {
         this.genres = response.genres
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    await this.$axios.$get('http://127.0.0.1:8000/api/type')
+      .then((response) => {
         this.types = response.types
       })
       .catch((error) => {
@@ -108,6 +114,8 @@ export default {
           this.howtoData.push(...response.howtos)
           this.ingredientData.splice(0, this.ingredientData.length)
           this.ingredientData.push(...response.ingredients)
+          this.selectGenre = response.recipes[0].genre
+          this.selectType = response.recipes[0].type
         })
         .catch((error) => {
           console.log(error)

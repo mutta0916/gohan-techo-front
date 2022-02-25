@@ -11,8 +11,8 @@
       <p class="memo">
         {{ recipe.memo }}
       </p>
-      <span class="genre_label">{{ recipe.genre }}</span>
-      <span class="type_label">{{ recipe.type }}</span>
+      <span class="genre_label">{{ recipe.genre_name }}</span>
+      <span class="type_label">{{ recipe.type_name }}</span>
     </div>
   </NuxtLink>
 </template>
