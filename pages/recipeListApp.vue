@@ -26,7 +26,7 @@ export default {
   },
   async fetch () {
     await this.$axios
-      .$get('http://127.0.0.1:8000/api/recipe', { params: { user_id: 1 } })
+      .$get(`${this.$axios.defaults.baseURL}recipe`, { params: { user_id: 1 } })
       .then((response) => {
         this.recipes = response.recipes
       })

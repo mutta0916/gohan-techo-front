@@ -89,14 +89,14 @@ export default {
   async fetch () {
     this.recipeId = this.$route.query.recipeId
     this.mode = this.recipeId ? update : store
-    await this.$axios.$get('http://127.0.0.1:8000/api/genre')
+    await this.$axios.$get(`${this.$axios.defaults.baseURL}genre`)
       .then((response) => {
         this.genres = response.genres
       })
       .catch((error) => {
         console.log(error)
       })
-    await this.$axios.$get('http://127.0.0.1:8000/api/type')
+    await this.$axios.$get(`${this.$axios.defaults.baseURL}type`)
       .then((response) => {
         this.types = response.types
       })
@@ -104,7 +104,7 @@ export default {
         console.log(error)
       })
     if (this.mode === update) {
-      await this.$axios.$get(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`)
+      await this.$axios.$get(`${this.$axios.defaults.baseURL}recipe/${this.recipeId}`)
         .then((response) => {
           this.name = response.recipes[0].name
           this.photo = response.recipes[0].photo ? response.recipes[0].photo : require('../assets/upload.svg')
@@ -159,7 +159,7 @@ export default {
       if (this.mode === update) {
         formData.append('_method', 'PUT')
         this.$axios
-          .$post(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`, formData, config)
+          .$post(`${this.$axios.defaults.baseURL}recipe/${this.recipeId}`, formData, config)
           .then(() => {
             window.location.href = '/recipeListApp'
           })
@@ -168,7 +168,7 @@ export default {
           })
       } else {
         this.$axios
-          .$post('http://127.0.0.1:8000/api/recipe', formData, config)
+          .$post(`${this.$axios.defaults.baseURL}recipe`, formData, config)
           .then(() => {
             window.location.href = '/recipeListApp'
           })
@@ -179,7 +179,7 @@ export default {
     },
     destroy () {
       this.$axios
-        .$delete(`http://127.0.0.1:8000/api/recipe/${this.recipeId}`)
+        .$delete(`${this.$axios.defaults.baseURL}recipe/${this.recipeId}`)
         .then(() => {
           window.location.href = '/recipeListApp'
         })
