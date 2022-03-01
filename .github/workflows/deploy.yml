@@ -1,12 +1,7 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -41,6 +36,14 @@ jobs:
 
       - name: Install dependencies
         run: yarn
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Create env file
+        run: |
+        touch .env
+        echo BASE_URL=${{ secrets.API_URL }} >> .env
 
       - name: Run linter
         run: yarn lint
