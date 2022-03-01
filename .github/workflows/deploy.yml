@@ -1,12 +1,7 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -32,7 +27,7 @@ jobs:
 
       - name: Cache node_modules
         uses: actions/cache@v2.1.4
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -41,6 +36,14 @@ jobs:
 
       - name: Install dependencies
         run: yarn
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Create env file
+        run: |
+        touch .env
+        echo BASE_URL=${{ secrets.API_URL }} >> .env
 
       - name: Run linter
         run: yarn lint
