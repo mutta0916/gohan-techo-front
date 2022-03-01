@@ -49,14 +49,14 @@ export default {
   },
   async fetch () {
     await this.$axios
-      .$get('http://127.0.0.1:8000/api/recipe', { params: { user_id: 1 } })
+      .$get(`${this.$axios.defaults.baseURL}recipe`, { params: { user_id: 1 } })
       .then((response) => {
         this.recipes = response.recipes
       })
       .catch((error) => {
         console.log(error)
       })
-    await this.$axios.$get('http://127.0.0.1:8000/api/menu', { params: { user_id: 1, year: this.year, month: this.month } })
+    await this.$axios.$get(`${this.$axios.defaults.baseURL}menu`, { params: { user_id: 1, year: this.year, month: this.month } })
       .then((response) => {
         this.allMenus = response.menus
       })
@@ -70,7 +70,7 @@ export default {
       date.setMonth(date.getMonth() - 1)
       this.year = date.getFullYear()
       this.month = date.getMonth() + 1
-      this.$axios.$get('http://127.0.0.1:8000/api/menu', { params: { user_id: 1, year: this.year, month: this.month } })
+      this.$axios.$get(`${this.$axios.defaults.baseURL}menu`, { params: { user_id: 1, year: this.year, month: this.month } })
         .then((response) => {
           this.allMenus = response.menus
         })
@@ -83,7 +83,7 @@ export default {
       date.setMonth(date.getMonth() + 1)
       this.year = date.getFullYear()
       this.month = date.getMonth() + 1
-      this.$axios.$get('http://127.0.0.1:8000/api/menu', { params: { user_id: 1, year: this.year, month: this.month } })
+      this.$axios.$get(`${this.$axios.defaults.baseURL}menu`, { params: { user_id: 1, year: this.year, month: this.month } })
         .then((response) => {
           this.allMenus = response.menus
         })
@@ -97,7 +97,7 @@ export default {
       // 献立情報更新
       this.allMenus[filterDateIndex].data[eventArgs.category].title = eventArgs.title
       this.$axios
-        .$post('http://127.0.0.1:8000/api/menu',
+        .$post(`${this.$axios.defaults.baseURL}menu`,
           {
             user_id: 1,
             menu_id: this.allMenus[filterDateIndex].data[eventArgs.category].id,
@@ -130,7 +130,7 @@ export default {
 
       // 献立情報更新
       this.$axios
-        .$post('http://127.0.0.1:8000/api/menu',
+        .$post(`${this.$axios.defaults.baseURL}menu`,
           {
             user_id: 1,
             menu_id: this.allMenus[filterDateIndex].data[filterCategoryIndex].id,
@@ -167,7 +167,7 @@ export default {
       this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_name = ''
       this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_photo = ''
       this.$axios
-        .$delete(`http://127.0.0.1:8000/api/menu/${eventArgs.menuRecipesId}`)
+        .$delete(`${this.$axios.defaults.baseURL}menu/${eventArgs.menuRecipesId}`)
         .then(() => {
           // 処理なし
           console.log(this.allMenus)
