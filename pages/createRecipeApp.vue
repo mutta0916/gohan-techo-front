@@ -161,7 +161,7 @@ export default {
         this.$axios
           .$post(`${this.$axios.defaults.baseURL}recipe/${this.recipeId}`, formData, config)
           .then(() => {
-            window.location.href = '/recipeListApp'
+            this.$route.push({ path: '/recipeListApp' })
           })
           .catch((error) => {
             console.log(error)
