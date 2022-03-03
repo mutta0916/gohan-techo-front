@@ -161,7 +161,7 @@ export default {
         this.$axios
           .$post(`${this.$axios.defaults.baseURL}recipe/${this.recipeId}`, formData, config)
           .then(() => {
-            this.$route.push({ path: '/recipeListApp' })
+            this.$router.push('/recipeListApp')
           })
           .catch((error) => {
             console.log(error)
@@ -170,7 +170,7 @@ export default {
         this.$axios
           .$post(`${this.$axios.defaults.baseURL}recipe`, formData, config)
           .then(() => {
-            this.$route.push({ path: '/recipeListApp' })
+            this.$router.push('/recipeListApp')
           })
           .catch((error) => {
             console.log(error)
@@ -181,7 +181,7 @@ export default {
       this.$axios
         .$delete(`${this.$axios.defaults.baseURL}recipe/${this.recipeId}`)
         .then(() => {
-          window.location.href = '/recipeListApp'
+          this.$router.push('/recipeListApp')
         })
         .catch((error) => {
           console.log(error)

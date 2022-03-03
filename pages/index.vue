@@ -35,7 +35,7 @@ export default {
   layout: 'home',
   methods: {
     login () {
-      window.location.href = '/createRecipeApp'
+      this.$router.push('/createRecipeApp')
     }
   }
 }
