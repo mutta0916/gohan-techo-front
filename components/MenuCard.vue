@@ -1,6 +1,6 @@
 <template>
   <div class="content_wrapper">
-    <input v-model="title" type="text" placeholder="献立名称 例)朝ごはん" class="title" @change="change">
+    <input :value="categoryMenus.title" type="text" placeholder="献立名称 例)朝ごはん" class="title" @change="change($event)">
     <div v-for="n in 3" :key="n" class="img_wrapper_line">
       <div class="img_wrapper">
         <div class="img_header">
@@ -78,15 +78,9 @@ export default {
       }
     }
   },
-  data () {
-    return {
-      photo: require('../assets/upload.svg'),
-      title: this.categoryMenus.title
-    }
-  },
   methods: {
-    change () {
-      this.$emit('change-title', this.title)
+    change ($event) {
+      this.$emit('change-title', $event.target.value)
     },
     click (location) {
       this.$emit('modal-child-click', { showModalFlg: true, location })
