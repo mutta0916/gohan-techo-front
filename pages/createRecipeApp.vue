@@ -141,7 +141,7 @@ export default {
     register () {
       const formData = new FormData()
       const arrHowto = this.howtoData.filter(elem => elem.howto.trim())
-      const arrIngredient = this.ingredientData.filter(elem => elem.name.trim() && elem.amount.trim())
+      const arrIngredient = this.ingredientData.filter(elem => elem.name.trim() || elem.amount.trim())
       formData.append('user_id', 1)
       formData.append('name', this.name)
       formData.append('genre_id', this.selectGenre)
