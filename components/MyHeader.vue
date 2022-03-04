@@ -48,12 +48,18 @@ export default {
   data () {
     return {
       windowWidth: window.innerWidth,
-      isActiveMenu: false
+      isActiveMenu: false,
+      paramCount: 0
     }
   },
   computed: {
     isMobile () {
       return this.windowWidth < 768
+    }
+  },
+  watch: {
+    $route (to, from) {
+      this.paramCount = Object.keys(from.query).length
     }
   },
   mounted () {
@@ -68,9 +74,12 @@ export default {
     trigger (event) {
       if (this.isMobile) {
         this.isActiveMenu = false
-        this.$router.push({ path: event.target.pathname })
-      } else {
-        this.$router.push({ path: event.target.pathname })
+      }
+      this.$router.push({ path: event.target.pathname })
+      if (this.paramCount > 0 && event.target.pathname === '/createRecipeApp') {
+        // 料理一覧画面からの遷移時かつ、料理作成画面選択時はリロードする
+        // 同一コンポーネント仕様の場合、インスタンス再作成が行われないため
+        location.reload()
       }
     }
   }
