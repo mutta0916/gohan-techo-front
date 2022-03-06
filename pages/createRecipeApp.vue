@@ -2,20 +2,37 @@
   <div id="app">
     <div class="create_recipe_wrapper">
       <div class="recipe_name_row_wrapper">
-        <input v-model="name" type="text" name="name" placeholder="料理名を入力してください。" class="recipe_name">
-        <select v-model="selectGenre" name="genre" class="select">
-          <option v-for="(row, index) in genres" :key="index" :value="row.id">
-            {{ row.genre }}
-          </option>
-        </select>
-        <select v-model="selectType" name="type" class="select">
-          <option v-for="(row, index) in types" :key="index" :value="row.id">
-            {{ row.type }}
-          </option>
-        </select>
-        <input type="submit" value="登録" class="button_insert" @click="register">
-        <input type="submit" value="削除" class="button_delete" @click="destroy">
+        <div>
+          <label class="recipe_name_label" for="recipe_name_field">
+            料理名
+          </label>
+          <span class="required">*必須</span>
+        </div>
+        <div>
+          <select v-model="selectGenre" name="genre" class="select">
+            <option v-for="(row, index) in genres" :key="index" :value="row.id">
+              {{ row.genre }}
+            </option>
+          </select>
+          <select v-model="selectType" name="type" class="select">
+            <option v-for="(row, index) in types" :key="index" :value="row.id">
+              {{ row.type }}
+            </option>
+          </select>
+          <input type="submit" value="登録" class="button_insert" @click="register">
+          <input type="submit" value="削除" class="button_delete" @click="destroy">
+        </div>
       </div>
+      <input
+        id="recipe_name_field"
+        v-model="name"
+        type="text"
+        name="name"
+        placeholder="料理名を入力してください。"
+        class="recipe_name"
+        @input="onInput"
+      >
+      <span class="error">{{ error }}</span>
       <div class="content_wrapper">
         <div class="left_content_wrapper">
           <div class="recipe_photo_wrapper">
@@ -139,6 +156,11 @@ export default {
         .catch(() => { this.error = '画像のアップロードに失敗しました。' })
     },
     register () {
+      // 料理名未入力時エラー
+      if (!this.name) {
+        this.error = '← 料理名を入力してください。'
+        return
+      }
       const formData = new FormData()
       const arrHowto = this.howtoData.filter(elem => elem.howto.trim())
       const arrIngredient = this.ingredientData.filter(elem => elem.name.trim() || elem.amount.trim())
@@ -165,6 +187,9 @@ export default {
           })
           .catch((error) => {
             console.log(error)
+            if (error.response.status === 400) {
+              this.error = '← 料理名を入力してください。'
+            }
           })
       } else {
         this.$axios
@@ -174,6 +199,9 @@ export default {
           })
           .catch((error) => {
             console.log(error)
+            if (error.response.status === 400) {
+              this.error = '← 料理名を入力してください。'
+            }
           })
       }
     },
@@ -186,6 +214,9 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    onInput () {
+      this.error = ''
     },
     changeHowto (changeHowtos) {
       this.howtoData = changeHowtos
@@ -208,13 +239,29 @@ export default {
 .recipe_name_row_wrapper {
   display: flex;
   flex-flow: row;
-  margin-bottom: 25px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.recipe_name_label {
+  font-weight: bold;
+  font-size: 25.5px;
+}
+
+.required {
+  color: #ff80b0;
+}
+
+.error {
+  margin-left: 10px;
+  font-weight: bold;
+  color: #ff80b0;
 }
 
 .recipe_name {
   font-size: 23px;
-  width: 50%;
-  margin-right: auto;
+  width: 60%;
+  margin-bottom: 15px;
 }
 
 .content_wrapper {
