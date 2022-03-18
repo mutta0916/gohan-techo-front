@@ -1,69 +1,46 @@
-# gohan-techo-front
+# :rice_ball:ごはん手帳
+覚えておきたい料理レシピの管理と献立作成ができるアプリケーションです。  
+下記URLからアクセスできます。  
+https://nostalgic-joliot-07ccaa.netlify.app/
 
-## Build Setup
+# なぜ作ったか
+よく自炊をするのですが、献立を立てるときに下記のことに以前から悩んでいました。
+- なにか食べたかったはずなのに、何を食べたかったかいざ献立を立てるときには忘れている。
+- 食べたいものがあったのに、どこにレシピを保存したかわからなくなる。
+- 色々なものを食べたかったはずなのに、気づいたら同じ料理を食べている。
+- 献立をたてたら、茶色一色だった。
 
-```bash
-# install dependencies
-$ yarn install
+これらの悩みを解決したいと思い、開発いたしました。  
+具体的には、
+- なにか食べたかったはずなのに、何を食べたかったかいざ献立を立てるときには忘れている。
+- 食べたいものがあったのに、どこにレシピを保存したかわからなくなる。  
+⇒ 料理の情報を集約できるよう、料理レシピ登録機能を実装しました。
+- 気づいたら同じ料理を食べている。  
+⇒ 献立を月ごとの一覧で確認できるようにしました。
+- 献立を立てたら、彩りに欠けていた。  
+⇒ 献立表に写真が表示されるようにしました。
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+# 技術要件
+| 分類          | 技術         | バージョン   |
+|:--------------|:------------|:------------|
+| バックエンド   | PHP         | 8.0.15      |
+|               | Laravel     | 6           |
+| フロントエンド | HTML5       |             |
+|               | CSS         |             |
+|               | JavaScript  |             |
+|               | Vue.js      |2.6.14       |
+|               | Nuxt.js     |2.15.8       |
+| DB            | MySQL       |             |
+| インフラ AWS   | EC2         |             |
+|               | RDS         |             |
+|               | S3          |             |
+|               | Route 53    |             |
+|               | ACM         |             |
+| バージョン管理 | Github      |             |
+| タスク管理     | Redmine     |             |
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+# インフラ構成図
+![infrastructure](https://user-images.githubusercontent.com/49871162/158778366-7f0f0923-2208-49c3-a236-1d94d74605cd.jpg)
 
-# generate static project
-$ yarn generate
-```
-
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
-
-## Special Directories
-
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
-
-### `assets`
-
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
-
-### `components`
-
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+# ER図
+![ER図](https://user-images.githubusercontent.com/49871162/158953703-08cd7d57-52fb-48cf-8262-6d1e5b35a4a8.PNG)
