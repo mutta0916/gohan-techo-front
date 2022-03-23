@@ -170,7 +170,6 @@ export default {
         .$delete(`${this.$axios.defaults.baseURL}menu/${eventArgs.menuRecipesId}`)
         .then(() => {
           // 処理なし
-          console.log(this.allMenus)
         })
         .catch((error) => {
           console.log(error)
