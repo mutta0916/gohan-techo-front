@@ -36,16 +36,7 @@ export default {
   },
   computed: {
     filteredRecipes () {
-      const searchRecipes = []
-      for (const i in this.recipes) {
-        const recipe = this.recipes[i]
-        if (recipe.name.includes(this.keyword) ||
-              recipe.genre.includes(this.keyword) ||
-                recipe.type.includes(this.keyword)) {
-          searchRecipes.push(recipe)
-        }
-      }
-      return searchRecipes
+      return this.recipes.filter(elem => elem.name.includes(this.keyword) || elem.genre_name.includes(this.keyword) || elem.type_name.includes(this.keyword))
     }
   }
 }
