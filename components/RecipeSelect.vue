@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     filteredRecipes () {
-      return this.recipes.filter(elem => elem.name.includes(this.keyword) || elem.genre.includes(this.keyword) || elem.type.includes(this.keyword))
+      return this.recipes.filter(elem => elem.name.includes(this.keyword) || elem.genre_name.includes(this.keyword) || elem.type_name.includes(this.keyword))
     }
   },
   methods: {
