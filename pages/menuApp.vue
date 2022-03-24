@@ -162,7 +162,6 @@ export default {
       // 位置のインデックスを取得
       const filterLocationIndex = filterCategory[0].data.findIndex(({ location }) => location === eventArgs.location)
       this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].menu_recipes_id = 0
-      this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].location = 0
       this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_id = 0
       this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_name = ''
       this.allMenus[filterDateIndex].data[filterCategoryIndex].data[filterLocationIndex].recipe_photo = ''
